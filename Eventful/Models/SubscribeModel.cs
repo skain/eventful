@@ -12,9 +12,9 @@ namespace eventful.Models
 		public string KlaxonIDsToSubscribeTo { get; set; }
 		public string SelectedEmail { get; set; }
 
-		public SubscribeModel(string KlaxonIDsToSubscribeTo)
+		public SubscribeModel(string klaxonIDsToSubscribeTo)
 		{
-			KlaxonIDsToSubscribeTo = KlaxonIDsToSubscribeTo;
+			KlaxonIDsToSubscribeTo = klaxonIDsToSubscribeTo;
 			eventfulUserModel eum = eventfulUserModel.GetOrCreateCurrentUser();
 			UserEmails = eum.Emails;
 			SelectedEmail = null;
