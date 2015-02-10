@@ -1,14 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventful", "Eventful\Eventful.csproj", "{AF18F582-88D3-4145-A1F6-2705EFCF20EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventfulQueueProcessor", "EventfulQueueProcessor\EventfulQueueProcessor.csproj", "{1EE6F35D-499A-466E-B554-C5A2DDB7A39C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventfulKlaxonProcessor", "EventfulKlaxonProcessor\EventfulKlaxonProcessor.csproj", "{D5B66FFB-D989-4667-97B8-259031CAF4FD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventfulTestApp", "EventfulTestApp\EventfulTestApp.csproj", "{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{62964EC8-F45C-4D67-B0A3-6B6687067F20}"
 	ProjectSection(SolutionItems) = preProject
@@ -69,18 +67,6 @@ Global
 		{D5B66FFB-D989-4667-97B8-259031CAF4FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5B66FFB-D989-4667-97B8-259031CAF4FD}.Stage|Any CPU.ActiveCfg = Release|Any CPU
 		{D5B66FFB-D989-4667-97B8-259031CAF4FD}.Stage|Any CPU.Build.0 = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Dev|Any CPU.Build.0 = Debug|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Local|Any CPU.ActiveCfg = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Local|Any CPU.Build.0 = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Prod|Any CPU.ActiveCfg = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Prod|Any CPU.Build.0 = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Stage|Any CPU.ActiveCfg = Release|Any CPU
-		{9CD5EA4A-0C2E-4597-B7F7-074530B2FDC7}.Stage|Any CPU.Build.0 = Release|Any CPU
 		{4E2798FB-04C0-4F52-AEB0-0B8319A8777D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E2798FB-04C0-4F52-AEB0-0B8319A8777D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E2798FB-04C0-4F52-AEB0-0B8319A8777D}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
