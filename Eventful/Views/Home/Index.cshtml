@@ -1,0 +1,54 @@
+﻿@{
+	ViewBag.Title = "Home";
+}
+
+<style type="text/css">
+	div.mainPoints
+	{
+		margin-top: 20px;
+	}
+	div.mainPoint
+	{
+		padding: 20px;
+		border: solid 1px lightGray;
+		height: 165px;
+		cursor: pointer;
+	}
+</style>
+<div class="row">
+	<div class="col-md-12">
+		<h1>{e}ventful</h1>
+		<h3>{e}ventful is a system for logging, monitoring and anyalyzing application event data in real-time.</h3>
+		<p>
+			Tons of eventful things are happening within your application right now. {e}ventful will help you quantize and understand those events to better serve your business and your users.
+		</p>
+	</div>
+</div>
+<div class="row mainPoints">
+	<div class="col-md-4">
+		<div class="mainPoint" data-divlink="/Query">
+			<h2>Logging</h2>
+			<p>It all starts with logging.</p>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="mainPoint" data-divlink="/Aggregate">
+			<h2>Monitoring</h2>
+			<p>Subscribe to real-time alerts for whatever metrics matter to you.</p>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="mainPoint" data-divlink="/Reports">
+			<h2>Analyzing</h2>
+			<p>Sophisticated and performant real-time querying that supports text search, complex queries and aggregation.</p>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function () {
+		$('body').on('click', 'div.mainPoint', function () {
+			var link = $(this).data('divlink');
+			window.location = link;
+		});
+	});
+</script>

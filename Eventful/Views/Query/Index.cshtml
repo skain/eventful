@@ -1,0 +1,425 @@
+﻿@model eventful.Models.eventfulQueryModel
+@{
+	ViewBag.Title = "Query";
+}
+<style type="text/css">
+	div.resultDiv {
+		overflow: auto;
+		margin-top: 10px;
+	}
+
+	div.detailRow pre {
+		border: none;
+		padding: 0;
+		background-color: transparent;
+	}
+
+	div.summaryRow {
+		background-color: white;
+		border: solid 2px #C5C0E8;
+		overflow: hidden;
+	}
+
+		div.summaryRow > div {
+			-webkit-mask-image: -webkit-gradient(linear, 80% top, right top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+		}
+
+		div.summaryRow span {
+			margin: 0 10px;
+			padding: 4px;
+			overflow: hidden;
+			max-height: 25px;
+			word-wrap: break-word;
+			word-break: break-all;
+			display: inline-block;
+			font-weight: bold;
+			max-width: 100%;
+		}
+
+		div.summaryRow:hover {
+			border-style: dotted;
+			cursor: pointer;
+		}
+
+	#CollapseButtonContainer {
+		float: right;
+	}
+</style>
+<div class="row">
+	<div class="col-md-12">
+		<h2 style="display: inline-block;">Query</h2>
+		<a href="/eventful/Query">[Reset]</a>
+	</div>
+</div>
+<div class="row">
+	<div id="LinkDiv" class="col-md-12">
+
+	</div>
+</div>
+@using (Html.BeginForm("Index", "Query", FormMethod.Post, new { ID = "CriteriaForm", @class = "form-horizontal" }))
+{
+	<h3>Criteria</h3>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="RequestedStartTime" class="col-sm-3 col-md-2">StartTime</label>
+				<div class="col-sm-9 col-md-10">
+					<div class="input-group">
+						@Html.Partial("DatePickerEButton") @Html.TextBoxFor(m => m.RequestedStartTime, new { @class = "form-control" })
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="RequestedEndTime" class="col-sm-3 col-md-2">EndTime</label>
+				<div class="col-sm-9 col-md-10">
+					<div class="input-group">
+						@Html.Partial("DatePickerEButton") @Html.TextBoxFor(m => m.RequestedEndTime, new { @class = "form-control" })
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="QueryCriteria" class="col-sm-2 col-md-1">EQL Query</label>
+				<div class="col-sm-10 col-md-11">
+					<div class="input-group eButton-top">
+						@Html.Partial("FieldPickerEButton") @Html.TextAreaFor(m => m.EqlQuery, new { rows = 10, @class = "form-control" })
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="form-group">
+				<div class="col-xs-12">
+					<input type="submit" class="btn btn-primary" />
+					<a href="#" class="btn btn-default" id="AggregateLink">Aggregate this query</a>
+					<span id="KnockoutSubmitted">
+					</span>
+				</div>
+			</div>
+			@Html.HiddenFor(m => m.RequestedPage)
+		</div>
+	</div>
+}
+<div id="KnockoutResults"></div>
+
+@Html.Partial("DatePickerPopup")
+@Html.Partial("FieldPickerPopup")
+
+<script id="SubmittedQueryTemplate" type="text/html">
+	<!-- Button trigger modal -->
+	<a href="javascript:void(0);" data-toggle="modal" data-target="#SubmittedQueryModal">
+		Geek Out!
+	</a>
+
+	<!-- Modal -->
+	<div class="modal fade" id="SubmittedQueryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">MongoDB Query</h4>
+				</div>
+				<div class="modal-body">
+					<p>Below is the query that was actually sent to MongoDB to retrieve your results.</p>
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-lg-2">Timespan</label>
+							<div class="col-lg-10"><span data-bind="text: startTime"></span>- <span data-bind="	text: endTime"></span></div>
+						</div>
+						<div class="form-group">
+							<label for="QueryTB" class="col-lg-2">Query Sent</label>
+							<div class="col-lg-10">
+								<textarea rows="4" data-bind="text: querySent" id="QueryTB" class="form-control"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</script>
+<script id="ResultsTemplate" type="text/html">
+	<div id="ResultsDiv">
+		<div class="row" data-bind="visible: totalResultCount > pageSize">
+			<div class="col-md-12">
+				<ul class="pagination">
+					<li data-bind="css: { disabled: pagerInfo.CurrentPage == 1 }"><a href="javascript:void(0);" data-pager-page="1" title="Go to First Page">&laquo;</a></li>
+					<li data-bind="css: { disabled: pagerInfo.CurrentPage == 1 }"><a href="javascript:void(0);" data-bind="attr:{ 'data-pager-page': pagerInfo.CurrentPage - 1 }" title="Previous 5 Pages">&lt;</a></li>
+					<!-- ko foreach: pagerInfo.CurrentPagesForPager -->
+					<li data-bind="css: { active: $parent.pagerInfo.CurrentPage == $data }"><a href="javascript:void(0);" data-bind="text: $data, attr: { 'data-pager-page': $data, title: 'Go to Page ' + $data }"></a></li>
+					<!-- /ko -->
+					<li data-bind="css: { disabled: pagerInfo.CurrentPage == pagerInfo.MaxPage }"><a href="javascript:void(0);" data-bind="attr:{ 'data-pager-page': pagerInfo.CurrentPage + 1 }" title="Next 5 Pages">&gt;</a></li>
+					<li data-bind="css: { disabled: pagerInfo.CurrentPage == pagerInfo.MaxPage }"><a href="javascript:void(0);" data-bind="attr:{ 'data-pager-page': pagerInfo.MaxPage }" title="Go to Last Page">&raquo;</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				Num Results: <span data-bind="text: totalResultCount"></span>
+			</div>
+			<div class="col-md-2">
+				<div data-bind="visible: totalResultCount > pageSize">
+					Page Size: <span data-bind="text: pageSize"></span>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div id="CollapseButtonContainer">
+					<a href="javascript:void(0);">Collapse all items</a>
+				</div>
+			</div>
+		</div>
+		<!-- ko foreach: queryResults -->
+		<div class="row">
+			<div class="resultDiv">
+				<div class="summaryRow">
+					<div class="col-sm-4 col-md-3">
+						<span data-bind="text: $data.getFieldValByName('Timestamp'), attr: { title: $data.getFieldValByName('Timestamp') }"></span>
+					</div>
+					<div class="col-sm-3 col-md-2">
+						<span data-bind="text:$data.getFieldValByName('ApplicationName'), attr: { title: $data.getFieldValByName('ApplicationName') }"></span>
+					</div>
+					<div class="col-sm-2">
+						<span data-bind="text:$data.getFieldValByName('MachineName'), attr: { title: $data.getFieldValByName('MachineName') }"></span>
+					</div>
+					<div class="col-sm-3">
+						<span data-bind="text:$data.getFieldValByName('eventfulGroup'), attr: { title: $data.getFieldValByName('eventfulGroup') }"></span>
+					</div>
+					<div class="col-sm-2">
+						<span data-bind="text:$data.getFieldValByName('LogLevel'), attr: { title: $data.getFieldValByName('LogLevel') }"></span>
+					</div>
+					<div class="col-sm-5 col-md-5">
+						<span data-bind="text:$data.getFieldValByName('Message'), attr: { title: $data.getFieldValByName('Message') }"></span>
+					</div>
+					<div class="col-sm-5 col-md-7">
+						<span data-bind="text:$data.getFieldValByName('ExceptionMessage'), attr: { title: $data.getFieldValByName('ExceptionMessage') }"></span>
+					</div>
+				</div>
+			</div>
+			<div class="row detailRow">
+				<div class="col-xs-12">
+					<table class="table table-striped">
+						<tbody>
+							<!-- ko foreach: $data.fieldsAsKeyValuePairs -->
+							<tr>
+								<td data-bind="text: $data.Key"></td>
+								<td><pre data-bind="text: $data.Value"></pre></td>
+							</tr>
+							<!-- /ko -->
+							<tr>
+								<td>Actions</td>
+								<td><button class="btn btn-default actionButton toMarkdown">To Markdown</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- /ko -->
+	</div>
+</script>
+<script src="/Scripts/eventful.dataModels.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		function initializeModels() {
+			//singleResult definition
+			eventful.dataModels.singleResultModel = function (rawResult) {
+				var self = this;
+				self.result = rawResult;
+				self.fieldsAsKeyValuePairs = self.result;
+				self.fieldsAsObject = convertKeyValuePairsToObject();
+				self.getFieldValByName = function (name) {
+					return self.fieldsAsObject[name] || 'N/A';
+				};
+
+				function convertKeyValuePairsToObject() {
+					var obj = {};
+					for (var i = 0; i < self.fieldsAsKeyValuePairs.length; i++) {
+						var curPair = self.fieldsAsKeyValuePairs[i];
+						obj[curPair.Key] = curPair.Value;
+					}
+
+					return obj;
+				}
+			}
+
+			//resultContainer definition
+			eventful.dataModels.resultContainerModel = function (rawResponse) {
+				var self = this;
+				self.response = rawResponse;
+				self.startTime = new Date(parseInt(self.response.StartTime.substr(6)));
+				self.endTime = new Date(parseInt(self.response.EndTime.substr(6)));
+				self.querySent = self.response.QuerySent;
+				self.pagerInfo = getPagerInfo();
+				self.totalResultCount = self.response.TotalResultCount;
+				self.pageSize = self.response.PageSize;
+				self.queryResults = convertQueryResultsToModels();
+
+				function getPagerInfo() {
+					var pi = {};
+					pi = {
+						PagesToDisplayInPager: 5,
+						MaxPage: Math.ceil(self.response.TotalResultCount / self.response.PageSize),
+						CurrentPage: self.response.CurrentPage
+					};
+
+
+					var mod = pi.CurrentPage % pi.PagesToDisplayInPager;
+
+					if (mod == 0) {
+						pi.FirstPage = pi.CurrentPage - (pi.PagesToDisplayInPager - 1);
+					} else {
+
+						pi.FirstPage = pi.CurrentPage - mod + 1;
+					}
+
+					pi.CurrentPagesForPager = [];
+					//calculate remaining pages
+					for (var i = 0; i < pi.PagesToDisplayInPager && (i + pi.CurrentPage) <= pi.MaxPage; i++) {
+						pi.CurrentPagesForPager[i] = i + pi.FirstPage;
+					}
+
+					return pi;
+				}
+
+				function convertQueryResultsToModels() {
+					arr = [];
+
+					for (var i = 0; i < self.response.QueryResults.length; i++) {
+						arr[i] = new eventful.dataModels.singleResultModel(self.response.QueryResults[i]);
+					}
+
+					return arr;
+				}
+			}
+		}
+		function buildReportLink() {
+			var link = getReportHref();
+			link = '<a href="' + link + '">Link to this query</a>';
+			$('#LinkDiv').html(link);
+		}
+
+		function getReportHref() {
+			var joined = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
+			var link = 'query?' + joined;
+			return link;
+		}
+
+		function setPageLocation() {
+			var href = getReportHref();
+			window.history.pushState({ location: href }, document.title, href);
+		}
+
+		function buildAggregateLink() {
+			var qs = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
+			var link = 'aggregate?' + qs;
+			$('#AggregateLink').attr('href', link);
+		}
+
+		function collapseAllToSummaryRows() {
+			$('div.detailRow').hide();
+			$('#CollapseButtonContainer a').text('Expand all items');
+		}
+
+		function expandAllDetailRows() {
+			$('div.detailRow').show();
+			$('#CollapseButtonContainer a').text('Collapse all items');
+		}
+
+
+		function renderResults(response, statusText, xhr, $form) {
+			//store the response in the dataModels namespace for later use
+			eventful.dataModels.queryResults = new eventful.dataModels.resultContainerModel(response);
+
+			$('body').removeClass('loading');
+			var resultsTemplate = $('#ResultsTemplate').text();
+			var submittedQueryTemplate = $('#SubmittedQueryTemplate').text();
+			$('#KnockoutResults').empty().html(resultsTemplate);
+			$('#KnockoutSubmitted').empty().html(submittedQueryTemplate);
+			$('#KnockoutResults').show();
+			ko.applyBindings(eventful.dataModels.queryResults, document.getElementById('KnockoutResults'));
+			ko.applyBindings(eventful.dataModels.queryResults, document.getElementById('KnockoutSubmitted'));
+			buildReportLink();
+			setPageLocation();
+			buildAggregateLink();
+			collapseAllToSummaryRows();
+			$('#EqlQuery').val(response.EqlQuery);
+			$('#RequestedPage').val('1');
+			//renderGraph(response);
+		};
+
+		initializeModels();
+		$('#KnockoutResults').hide();
+		$('#CriteriaForm').ajaxForm({
+			success: renderResults,
+			error: function (request, status, error) {
+				console.log('Error: ' + error);
+				console.log('Request: ' + request.ResponseText);
+				$('body').removeClass('loading');
+				eventful.errorAlert.showAlert(request.ResponseText || error || "Error message unavailable");
+				$('#KnockoutSubmitted').empty();
+				$('#KnockoutResults').empty();
+			},
+			beforeSubmit: function () { $('body').addClass('loading'); }
+		});
+		eventful.utils.loadQuerystringValues('#CriteriaForm');
+		$('#CriteriaForm input[type=submit]').click();
+		$('body').on('click', 'ul.pagination a', function () {
+			var $clicked = $(this);
+			var data = $clicked.data('pager-page');
+			$('#RequestedPage').val(data);
+			$('#CriteriaForm input[type=submit]').click();
+		});
+
+		$('body').on('click', '#CollapseButtonContainer a', function () {
+			var $this = $(this);
+			if ($this.text().indexOf('Collapse') > -1) {
+				collapseAllToSummaryRows();
+			} else {
+				expandAllDetailRows();
+			}
+		});
+
+		$('body').on('click', 'div.summaryRow', function () {
+			var $this = $(this);
+			var $detailRow = $this.parent('.resultDiv').siblings('div.detailRow');
+			$detailRow.toggle();
+		})
+
+		$('body').on('click', 'textarea.markdownTA', function () {
+			$(this).select();
+		});
+
+		$('body').on('click', '.actionButton.toMarkdown', function () {
+			var $detailRow = $(this).parents('div.detailRow');
+			var $table = $('table', $detailRow);
+			var $rows = $('tr', $table);
+			var markdown = ''
+			$.each($rows, function (index, value) {
+				var $tds = $('td', value);
+				var fieldName = $tds[0].innerText;
+				if (fieldName != '_id' && fieldName != 'Actions') {
+					markdown = markdown + '**' + $tds[0].innerText + '**\n' + $tds[1].innerText + '\n';
+				}
+			});
+
+			//eventful.modal.show('Markdown', '<textarea class="markdownTA" cols=60 rows=20>' + markdown + '</textarea>');
+			eventful.modal.showAlertModal('Markdown', '<textarea class="markdownTA" cols=60 rows=20>' + markdown + '</textarea>');
+		});
+
+		window.onpopstate = function (event) {
+			if (event.state && event.state.location) {
+				document.location = event.state.location;
+			}
+		}
+	});
+</script>

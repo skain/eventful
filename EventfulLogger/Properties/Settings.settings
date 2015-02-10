@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EventfulLogger.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SmtpServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">logging.smtp.wyzant.net</Value>
+    </Setting>
+    <Setting Name="SmtpPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">25</Value>
+    </Setting>
+    <Setting Name="SmtpUsername" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SmtpPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SmtpUseSSL" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="eventfulGroupSuffix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">_Dev</Value>
+    </Setting>
+    <Setting Name="AWSServiceUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your AWS Service URL}</Value>
+    </Setting>
+    <Setting Name="AWSQueueUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your AWS Queue URL}</Value>
+    </Setting>
+    <Setting Name="AWSAccessKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your AWS Access Key}</Value>
+    </Setting>
+    <Setting Name="AWSSecretKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your AWS Secret Key}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,43 @@
+﻿<script id="ResultsTemplate" type="text/html">
+	<div class="resultsDiv col-md-12">
+		<div class="row">
+			<div class="col-md-6"><strong>From:</strong> <span data-bind="text: StartTime"></span></div>
+			<div class="col-md-6"><strong>To:</strong> <span data-bind="text: EndTime"></span></div>
+		</div>
+		<div class="row">
+				<div class="graphDiv col-md-12"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				Total {e}vents Found: <span data-bind="text: TotalItemsFound"></span>
+			</div>
+            <div class="col-md-8">
+                Grouped by: <span id="GroupedBySpan" data-bind="text: GroupByFieldName"></span>
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped resultsTable" data-bind="attr: { 'data-eqlquery': BaseCriteriaQueryString, 'data-groupby': GroupByFieldName }">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<th>
+								Group
+							</th>
+							<th>
+								Count
+							</th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: QueryResults">
+						<tr>
+							<td><button class="btn eButton" data-bind="attr: { 'data-groupname': GroupName }">{e}</button></td>
+							<td data-bind="text: GroupName"></td>
+							<td data-bind="text: AggregateValue"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</script>

@@ -1,0 +1,154 @@
+﻿@model eventful.Models.eventfulReportModel
+@{
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div class="col-lg-12">
+	@using (Html.BeginForm())
+	{
+		<div class="form-group">
+			<label for="TitleTB">Report Title</label>
+			<input id="TitleTB" data-bind="value: Title" class="form-control" />
+		</div>
+		<hr />
+	<!-- ko foreach: AggregateRequests -->
+		<div class="form-group">
+			<label for="ItemTitleTB">Item Title</label>
+			<input type="text" class="form-control itemTitleTB" data-bind="value: Title" />
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="RequestedStartTime">StartTime</label>
+					<div class="input-group">
+						@Html.Partial("DatePickerEButton")
+						<input type="text" class="form-control startTimeTB" data-bind="value: RequestedStartTime" />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="RequestedEndTime">EndTime</label>
+					<div class="input-group">
+						@Html.Partial("DatePickerEButton")
+						<input type="text" class="form-control endTimeTB" data-bind="value: RequestedEndTime" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<label for="QueryCriteria">Criteria</label>
+					<div class="input-group eButton-top">
+						@Html.Partial("FieldPickerEButton")
+						<textarea id="QueryCriteriaTB" class="form-control queryTB" data-bind="value: EqlQuery, valueUpdate: 'input'"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="GroupBy">GroupBy</label>
+					<div class="input-group">
+						@Html.Partial("FieldPickerEButton")
+						<input type="text" class="form-control groupByTB" data-bind="value: GroupByFieldName" />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="AggregateOperator">Aggregate Operator</label>
+					<input type="text" class="form-control" data-bind="value: AggregateOperator" />
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="AggregateFieldName">Aggregate Field</label>
+					<input type="text" class="form-control" data-bind="value: AggregateFieldName" />
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="MaxResultsBeforeOutliers">Max Results Before Outliers</label>
+					<input type="text" class="form-control" data-bind="value: MaxResultsBeforeOutliers" />
+				</div>
+			</div>
+		</div>
+		@*<div class="form-group">
+				<label for="ItemTitleTB">Item Title</label>
+				<input type="text" class="form-control itemTitleTB" data-bind="value: Title" />
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label for="StartTimeTB">StartTime</label>
+						<div class="input-group">
+							@Html.Partial("DatePickerEButton")
+							<input type="text" class="form-control startTimeTB" data-bind="value: RequestedStartTime" />
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label for="EndTimeTB">EndTime</label>
+						<div class="input-group">
+							@Html.Partial("DatePickerEButton")
+							<input type="text" class="form-control endTimeTB" data-bind="value: RequestedEndTime" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="QueryCriteriaTB">Criteria</label>
+				<div class="input-group">
+					@Html.Partial("FieldPickerEButton")
+					<textarea id="QueryCriteriaTB" class="form-control queryTB" data-bind="value: EqlQuery, valueUpdate: 'input'"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label for="GroupByTB">GroupBy</label>
+						<div class="input-group">
+							@Html.Partial("FieldPickerEButton")
+							<input type="text" class="form-control groupByTB" data-bind="value: GroupByFieldName" />
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label for="MaxOutliersTB">Max Results Before Outliers</label>
+						<div class="input-group">
+							<input type="text" class="form-control" data-bind="value: MaxResultsBeforeOutliers" />
+						</div>
+					</div>
+				</div>
+			</div>*@
+		<div class="form-group">
+			<input type="button" class="btn" data-bind="click: $root.moveAggregateRequestUp, enable: $root.hasMoreThanOneAggregateRequest" value="Move Up" />
+			<input type="button" class="btn" data-bind="click: $root.moveAggregateRequestDown, enable: $root.hasMoreThanOneAggregateRequest" value="Move Down" />
+			<input type="button" class="btn" data-bind="click: $root.deleteAggregateRequest" value="Remove This Aggregate" />
+		</div>
+		<hr />
+	<!-- /ko -->
+		<div class="form-group">
+			<div class="input-group">
+				<input type="button" id="SubmitBTN" class="btn btn-primary" value="Save" />
+				<input type="button" class="btn " data-bind="click: addNewAggregateRequest" value="Add Another Aggregate..." />
+			</div>
+		</div>
+		@Html.ActionLink("Back to List", "Index")
+	}
+</div>
+
+@Html.Partial("DatePickerPopup")
+@Html.Partial("FieldPickerPopup")
+
+<style>
+	hr {
+		border-top: 1px solid #ccc;
+	}
+</style>

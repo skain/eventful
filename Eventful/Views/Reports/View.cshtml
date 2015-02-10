@@ -1,0 +1,116 @@
+﻿@model eventful.Models.eventfulReportModel
+<script src="/Scripts/Partials/AggregateResultsTemplate.js"></script>
+@{
+	ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<div class="row">
+	<div class="col-lg-12">
+		<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#TimespanOverridesPanel" style="padding: 0;">Override default timespans...</button>
+		<div id="TimespanOverridesPanel" class="panel panel-default collapse">
+			<div class="panel-body">
+				<p>
+					Each report item below was created with a default timespan that is calculated off the current time. Use the fields below to override these default timespans with any timespan of your choosing and then click Rerun Report to see the results for that timespan.
+				</p>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label for="StartTimeTB">Start Time</label>
+							<div class="input-group">
+								@Html.Partial("DatePickerEButton")
+								<input type="text" id="StartTimeTB" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label for="EndTimeTB">End Time</label>
+							<div class="input-group">
+								@Html.Partial("DatePickerEButton")
+								<input type="text" id="EndTimeTB" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<button type="button" class="btn btn-primary" id="RunReportBTN">Rerun Report</button>
+		</div>
+	</div>
+	@foreach (var agg in Model.AggregateRequests)
+ {
+		<div class="aggregateRequestDiv" data-groupbyfieldname="@agg.GroupByFieldName" data-starttime="@agg.RequestedStartTime" data-endtime="@agg.RequestedEndTime" data-eqlquery="@agg.EqlQuery" data-aggregateoperator="@agg.AggregateOperator" data-aggregatefieldname="@agg.AggregateFieldName" data-maxresultsbeforeoutliers="@agg.MaxResultsBeforeOutliers">
+			<h4>@agg.Title</h4>
+			<div class="resultsDiv"></div>
+		</div>
+ }
+
+	@Html.Partial("AggregateResultsTemplate")
+	@Html.Partial("DatePickerPopup")
+	<script>
+		$(document).ready(function () {
+			var runReport = function () {
+				$('.aggregateRequestDiv').each(function () {
+					var $this = $(this);
+					var $resultsDiv = $('.resultsDiv', $this);
+					$resultsDiv.empty().html(resultsTemplate);
+					$this.addClass('loading');
+					var overrideStartTime = $('#StartTimeTB').val();
+					var overrideEndTime = $('#EndTimeTB').val();
+					var data = JSON.stringify({
+						RequestedStartTime: overrideStartTime || $this.data('starttime'),
+						RequestedEndTime: overrideEndTime || $this.data('endtime'),
+						EqlQuery: $this.data('eqlquery'),
+						GroupByFieldName: $this.data('groupbyfieldname'),
+						MaxResultsBeforeOutliers: $this.data('maxresultsbeforeoutliers'),
+						AggregateOperator: $this.data('aggregateoperator'),
+						AggregateFieldName: $this.data('aggregatefieldname')
+					});
+
+					//console.log('posting ' + data);
+					$.ajax({
+						type: 'Post',
+						dataType: 'json',
+						url: '/Aggregate',
+						data: data,
+						contentType: 'application/json; charset=utf-8',
+						async: true,
+						success: function (data) {
+							eventful.partials.aggregateResultsTemplate.renderResults(data, $resultsDiv[0], null, null);
+							$this.removeClass('loading');
+						},
+						error: function (data) {
+							console.debug(data);
+						}
+					});
+				});
+			};
+			var resultsTemplate = $('#ResultsTemplate').text();
+			$('body').on('click', '#RunReportBTN', runReport);
+			eventful.utils.loadQuerystringValues('#TimespanOverridesPanel');
+			if ($('#StartTimeTB').val()) {
+				$('#TimespanOverridesPanel').collapse('show');
+			}
+			$('body').on('click', 'table.resultsTable button.eButton', function () {
+				var $btn = $(this);
+				var groupName = $btn.data('groupname');
+				var $table = $btn.closest('table');
+				var baseCriteria = $table.data('eqlquery');
+				var groupBy = $table.data('groupby');
+				var newCriteria = ' && ' + groupBy;
+				if (groupName == 'NULL') {
+					newCriteria = newCriteria + ' !exists';
+				} else {
+					newCriteria = newCriteria + " == '" + groupName + "'";
+				}
+				var encodedNewCriteria = encodeURIComponent(newCriteria);
+				var queryUrl = '/query?' + baseCriteria + encodedNewCriteria;
+				eventful.modal.showConfirmModal('Drill Down?', '<p>Drill down on ' + newCriteria.replace(' && ', '') + '?', function () { document.location = queryUrl });
+			});
+			runReport();
+		});
+	</script>

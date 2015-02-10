@@ -1,0 +1,26 @@
+﻿<script id="FieldPickerPopupTemplate" type="text/html">
+	<ul class="eventfulFieldPickerList">
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">ApplicationName</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">eventfulGroup</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">Message</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">LogLevel</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">LoggerName</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">Timestamp</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">ExceptionType</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">ExceptionStackTrace</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">ExceptionMessage</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpUser</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpUrlReferer</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpQueryString</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpRequestingIP</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpUserAgent</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpPage</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">HttpRawUrl</a></li>
+		<li><a href="javascript:void(0);" class="eventfulFieldPickerFieldLink">MachineName</a></li>
+	</ul>
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+		$('body').on('click', 'a.eventfulFieldPickerFieldLink', eventful.eButton.handleFieldPickerLinkClick);
+	});
+</script>

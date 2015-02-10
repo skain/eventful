@@ -1,0 +1,174 @@
+﻿@model IEnumerable<eventful.Models.KlaxonModel>
+@using eventful.Code
+@{
+	ViewBag.Title = "Klaxon";
+}
+<style>
+	td.statusTD {
+		text-align: center;
+	}
+		td.statusTD div.glyphicon {
+			color: white;
+			border-radius: 4px;
+			padding: 4px 19px 4px 4px;
+		}
+
+		td.statusTD div.glyphicon-ok {
+			background-color: green;
+		}
+
+		td.statusTD div.glyphicon-remove {
+			background-color: red;
+		}
+</style>
+<h2>All Klaxons</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+	<p class="col-xs-6">
+		<input type="text" class="form-control" id="FilterTB" placeholder="Filter by Name..." />
+	</p>
+	<p class="pull-right">
+		<button class="btn btn-link" id="SubAllBTN">Sub All</button><button class="btn btn-link" id="UnsubAllBTN">Unsub All</button>
+	</p>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<table class="table table-striped KlaxonsTable">
+			<tr>
+				<th>
+					&nbsp;
+				</th>
+				<th>Status</th>
+				<th>Sub</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Comparison Operator
+				</th>
+				<th>
+					Comparison Threshold
+				</th>
+				<th>
+					Check Every
+				</th>
+				<th>
+					Last Checked At
+				</th>
+				<th>
+					Next Check At
+				</th>
+				<th>
+					Num Matched Last Run
+				</th>
+			</tr>
+
+			@foreach (var item in Model.OrderBy(m => m.Name))
+			{
+				<tr>
+					<td>
+						@Html.ActionLink("Run", "RunTest", new { id = item.Id }) | @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "deleteButton" })
+					</td>
+					<td class="statusTD">
+						<div class='@string.Concat("glyphicon ", item.TestResult ? "glyphicon-ok" : "glyphicon-remove")'></div>
+					</td>
+					<td>
+						@if (item.CurrentUserIsSubscribed)
+						{
+							<input type="button" class="unsubscribeBTN btn btn-link" value="Unsub" data-id="@item.Id" />
+						}
+						else
+						{
+							<input type="button" class="subscribeBTN btn btn-link" value="Sub" data-id="@item.Id" />
+						}
+					</td>
+					<td>
+						@item.Name
+					</td>
+					<td>
+						@item.ComparisonOperator
+					</td>
+					<td>
+						@item.ComparisonThreshold
+					</td>
+					<td>
+						@item.CheckEvery
+					</td>
+					<td>
+						@item.LastCheckedAt
+					</td>
+					<td>
+						@item.NextCheckAt
+						<a href="Klaxon/resetNextCheck/@item.Id" class="btn btn-default btn-xs">Reset</a>
+					</td>
+					<td>
+						@item.NumMatched
+					</td>
+				</tr>
+			}
+
+		</table>
+	</div>
+</div>
+@using (Html.BootsrapModal("SubscribeModal", null, "Choose Email...", true))
+{
+	<div id="SubscribeModalContent">
+	</div>
+}
+<script src="/Scripts/eventful.simpleTableFilter.js" type="text/javascript"></script>
+<script>
+	$(document).ready(function () {
+
+		function doSubscribe(ids) {
+			$.get('/Klaxon/SubscribeDialog?idsStr=' + ids, function (data) {
+				if (data.Subscribed === true) {
+					document.location.reload(true);
+				} else {
+					$('#SubscribeModalContent').html(data);
+					$('#SubscribeModal').modal('show');
+				}
+			})
+		};
+
+		function doUnsubscribe(ids) {
+			document.location = '/Klaxon/Unsubscribe?idsStr=' + ids;
+		}
+
+		function getVisibleIDs() {
+			var ids = '';
+			var $subBtns = $('.subscribeBTN:visible,.unsubscribeBTN:visible');
+			$subBtns.each(function () {
+				var $btn = $(this);
+				var id = $btn.data('id');
+				ids = ids + id + ',';
+			});
+
+			return ids;
+		}
+		$('body').on('click', '.subscribeBTN', function () {
+			var id = $(this).data('id');
+			doSubscribe(id);
+		});
+
+		$('body').on('click', '.unsubscribeBTN', function () {
+			var id = $(this).data('id');
+			doUnsubscribe(id);
+		});
+
+		$('body').on('click', '#SubAllBTN', function () {
+			var ids = getVisibleIDs();
+			doSubscribe(ids);
+		});
+
+		$('body').on('click', '#UnsubAllBTN', function () {
+			alert('here');
+			var ids = getVisibleIDs();
+			doUnsubscribe(ids);
+		});
+
+		eventful.simpleTableFilter.registerFilterTable('#FilterTB', '.KlaxonsTable', 4);
+	});
+</script>

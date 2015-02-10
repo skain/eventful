@@ -1,0 +1,9 @@
+﻿@model eventful.Models.SubscribeModel
+
+<p>Select an email address below to subscribe with.</p>
+<ul>
+	@foreach (var email in Model.UserEmails)
+ {
+	 <li><a href='@string.Format("/Klaxon/Subscribe?{0}", string.Format("idsStr={0}&email={1}", HttpUtility.UrlEncode(Model.KlaxonIDsToSubscribeTo), HttpUtility.UrlEncode(email)))'>@email</a></li>
+ }
+</ul>

@@ -1,0 +1,104 @@
+﻿@model eventful.Models.eventfulUserModel
+@using eventful.Code;
+@{
+	ViewBag.Title = "Account";
+}
+
+<div class="row">
+	<div class="col-lg-12">
+		<h2>Account</h2>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6">
+		<strong>Username: </strong>@Model.Username
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<h3>Email Addresses</h3>
+		<ul>
+			@foreach (var email in Model.Emails)
+   {
+				if (Model.EmailIsPrimary(email))
+	{
+<li>(Primary Email) @email</li>
+	}
+				if (!Model.EmailIsPrimary(email))
+	{
+<li>
+					<button type="button" class="btn btn-link editBtn" data-email="@email">Edit</button><button type="button" class="btn btn-link deleteBtn" data-email="@email">Delete</button>
+					@email</li> 
+	}
+	 
+   }
+		</ul>
+		<button type="button" class="btn btn-link addNewBtn" data-toggle="modal" data-target="#AddEmail">Add New</button>
+	</div>
+</div>
+@using (Html.BootsrapModal("EditModal", null, "Edit Email", true))
+{
+	using (Html.BeginForm("EditEmail", "Users", FormMethod.Post, new { id = "EditForm", @class = "form-horizontal" }))
+	{
+	<div class="form-group">
+		<input type="text" id="EditEmailTB" class="form-control" name="newEmail" />
+		<input type="hidden" id="OldEmailH" name="oldEmail" />
+	</div>
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary" value="Change" id="EditEmailBTN" />
+		<input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+	</div>
+	}
+}
+@using (Html.BootsrapModal("AddEmail", null, "Add Email", true))
+{
+	using (Html.BeginForm("AddEmail", "Users", FormMethod.Post, new { id = "AddForm", @class = "form-horizontal" }))
+	{
+		<div class="form-group">
+			<input type="text" id="AddEmailTB" class="form-control" name="newEmail" placeholder="New Email" />
+		</div>
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary" value="Add" id="AddEmailBTN" />
+		<input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+	</div>
+	}
+}
+@using (Html.BootsrapModal("DeleteModal", null, "Delete Email", true))
+{
+	using (Html.BeginForm("DeleteEmail", null, FormMethod.Post, new { id = "DeleteForm", @class = "form-horizontal" }))
+	{
+		<p>
+			Are you sure you want to delete the email '<span id="DeleteEmailS"></span>' and all Klaxon subscriptions associated with it?
+		</p>
+	<input type="hidden" id="DeleteEmailH" name="DeleteEmail" />
+	<div class="form-group">		
+		<input type="submit" class="btn btn-primary" value="Delete" />
+		<input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+	</div>
+	}
+}
+<script>
+	$(document).ready(function () {
+		function promptEdit(editBtn) {
+			var email = $(editBtn).data('email');
+			$('#EditEmailTB').val(email);
+			$('#OldEmailH').val(email);
+			$('#EditModal').modal('show');
+		}
+
+		function promptDelete(deleteBtn) {
+			var email = $(deleteBtn).data('email');
+			$('#DeleteEmailH').val(email);
+			$('#DeleteEmailS').text(email);
+			$('#DeleteModal').modal('show');
+		}
+
+
+		$('body').on('click', '.editBtn', function () {
+			promptEdit(this);
+		});
+		$('body').on('click', '.deleteBtn', function () {
+			promptDelete(this);
+		});
+	});
+</script>

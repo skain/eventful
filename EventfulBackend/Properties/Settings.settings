@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="eventfulBackend.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MongoDBConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your MongoDB Connection String}</Value>
+    </Setting>
+    <Setting Name="MongoDBDatabaseName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">eventful</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

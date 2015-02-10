@@ -1,0 +1,33 @@
+﻿@model eventful.Models.eventfulReportModel
+@{
+	ViewBag.Title = "Create Report";	
+}
+<script src="/Scripts/Partials/AggregateResultsTemplate.js" type="text/javascript"></script>
+
+<h2>Create</h2>
+@Html.Partial("CreateEditForm", new eventful.Models.eventfulReportModel())
+
+<script type="text/javascript" src="/Scripts/reportsAddEditKnockout.js"></script>
+<script>
+var data = null;
+
+function doSubmit() {
+	$('.groupByTB').trigger("change");
+	var data = ko.toJSON(theModel);
+
+	$.ajax({
+		type: 'Post',
+		dataType: 'json',
+		url: '/Reports/Create',
+		data: data,
+		contentType: 'application/json; charset=utf-8',
+		async: false,
+		success: function (data) {
+			window.location = '/Reports/View/' + encodeURIComponent(data.Id);
+		},
+		error: function (data) {
+			console.debug(data);
+		}
+	});
+}
+</script>

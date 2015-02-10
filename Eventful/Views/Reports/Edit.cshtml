@@ -1,0 +1,17 @@
+﻿@model eventful.Models.eventfulReportModel
+@using eventful.Code;
+
+@using MvcShared;
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="/Scripts/eventful.dataModels.js"></script>
+<h2>Edit</h2>
+@Html.Partial("CreateEditForm", new eventful.Models.eventfulReportModel())
+
+<script>
+	var jsonEditData = null;
+	eventful.dataModels.addModel("jsonConvertedObject",  @Html.ConvertObjectToJS(@Model) );
+	jsonEditData = eventful.dataModels.jsonConvertedObject;
+</script>
+<script type="text/javascript" src="/Scripts/reportsAddEditKnockout.js"></script>

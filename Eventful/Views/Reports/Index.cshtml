@@ -1,0 +1,48 @@
+﻿@model eventful.Models.ReportListModel
+@{
+	ViewBag.Title = "Reports";
+}
+
+<div class="row">
+	<div class="col-md-12">
+
+		<h2>All Reports</h2>
+
+		<p>
+			@Html.ActionLink("Create New", "Create")
+		</p>
+		<div class="row">
+			<p class="col-xs-6">
+				<input type="text" class="form-control" id="FilterTB" placeholder="Filter by Name..." />
+			</p>
+		</div>
+		@if (Model.eventfulReports.Count() > 0)
+		{
+			<table class="table table-striped reportsTable">
+				<tr>
+					<th class="col-md-3">&nbsp;</th>
+					<th>Report Title</th>
+				</tr>
+				@foreach (var report in Model.eventfulReports.OrderBy(er => er.Title))
+				{
+					<tr>
+						<td>
+							@Html.ActionLink("Edit", "Edit", new { id = report.Id }) | @Html.ActionLink("View", "View", new { id = report.Id }) | @Html.ActionLink("Delete", "Delete", new { id = report.Id }, new { @class = "deleteButton" })
+						</td>
+						<td>@report.Title</td>
+					</tr>
+				}
+			</table>
+
+		}
+		else
+		{
+			<h3>No reports found</h3>
+		}
+	</div>
+</div>
+
+<script src="/Scripts/eventful.simpleTableFilter.js" type="text/javascript"></script>
+<script type="text/javascript">
+	eventful.simpleTableFilter.registerFilterTable('#FilterTB', '.reportsTable', 2);
+</script>

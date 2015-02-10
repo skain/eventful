@@ -1,0 +1,138 @@
+﻿@{
+	ViewBag.Title = "TimeTest";
+}
+
+<h2>TimeTest</h2>
+<div class="row">
+	<div class="col-lg-6">
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label>
+					StartTime
+			<input type="text" id="StartTime" value="Now - 15 minutes" class="form-control" /></label>
+				<label>
+					EndTime
+			<input type="text" id="EndTime" value="Now" class="form-control" /></label>
+			</div>
+			<div class="form-group">
+				<input type="button" id="Submit" class="btn btn-primary" value="Submit" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6">
+		<div id="Timespan"></div>
+	</div>
+</div>
+<div id="Chart"></div>
+<div id="Result">
+	<!-- ko foreach: QueryResults -->
+	<table class="table table-striped">
+		<tr>
+			<th>GroupName</th>
+			<td data-bind="text: GroupName"></td>
+		</tr>
+		<tr>
+			<th>Minute</th>
+			<td data-bind="text: Minute"></td>
+		</tr>
+		<tr>
+			<th>Aggregate</th>
+			<td data-bind="text: AggregateValue"></td>
+		</tr>
+	</table>
+	<!-- /ko -->
+</div>
+<script>
+	$(document).ready(function () {
+		function renderGraph(result) {
+			var series = [];
+			for (var i = 0; i < result.QueryResults.length; i++) {
+				var curSeries = null;
+				var curResult = result.QueryResults[i];
+				for (var j = 0, len = series.length; j < len; j++) {
+					if (series[j].name == curResult.GroupName) {
+						curSeries = series[j];
+						break;
+					}
+				}
+				//if (!curSeries) {
+				//	series.push({ name: curResult.GroupName, step: 'left', data: [[curResult.AggregateValue, curResult.Minute ]] });
+				//} else {
+				//	curSeries.data.push([curResult.AggregateValue, curResult.Minute]);
+				//}
+				if (!curSeries) {
+					series.push({ name: curResult.GroupName, pointWidth: 20, data: [[curResult.Minute, curResult.AggregateValue]] });
+				} else {
+					curSeries.data.push([curResult.Minute, curResult.AggregateValue]);
+				}
+			}
+			$('#Chart').highcharts({
+				chart: {
+					type: 'scatter'
+				},
+				xAxis: {
+					title: { text: "Minute" }
+				},
+				yAxis: {
+					title: { text: "Count" }
+				},
+				series: series
+			});
+			console.log(series);
+		}
+		function fixDate(jsonDate) {
+			var date = new Date(parseInt(jsonDate.substr(6)));
+			return date;
+		}
+		function renderResults(msg) {
+			//console.debug(JSON.stringify(msg));
+			var result = {};
+			for (var i = 0; i < msg.length; i++) {
+				var obj = msg[i];
+				result[obj.Key] = obj.Value;
+			}
+
+			result.QueryResults.sort(function (a, b) {
+				if (a.GroupName == b.GroupName) {
+					if (a.Minute > b.Minute) {
+						return 1;
+					} else if (a.Minute < b.Minute) {
+						return -1;
+					} else {
+						return 0;
+					}
+				} else {
+					if (a.GroupName > b.GroupName) {
+						return 1;
+					}
+					return -1;
+				}
+			});
+			//console.log(result);
+			ko.applyBindings(result, $('#Result')[0]);
+			$('#Timespan').text(fixDate(result.StartTime) + ' - ' + fixDate(result.EndTime));
+			renderGraph(result);
+			console.log('match');
+			console.log(result.MatchBsonDocument);
+			console.log('group');
+			console.log(result.GroupBsonDocument);
+			console.log('project');
+			console.log(result.ProjectBsonDocument);
+		}
+		function doPost() {
+			$.ajax({
+				type: "POST",
+				url: "/eventful/Aggregate/TimeTest",
+				data: { startTime: "Now - 15 minutes", endTime: "Now" }
+			}).done(function (msg) {
+				renderResults(msg);
+			}).error(function (msg) {
+				console.log(msg.responseText);
+			});
+		}
+		doPost();
+		$('body').on('click', '#Submit', doPost);
+	});
+</script>

@@ -1,0 +1,19 @@
+﻿@using eventful.Models
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<h2>Log In With Google</h2>
+<p>Click the button below to log in with your WyzAnt GMail credentials.</p>
+<div class="row">
+    <div class="col-md-12">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

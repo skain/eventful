@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "TestPage";
+}
+
+<h2>TestPage</h2>
+
+CST TZI: @string.Format("{0}", TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"))
+<br />
+Local Server Time: @string.Format("{0}", DateTimeOffset.Now)
+<br />
+Central Time: @string.Format("{0}", TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time")))
+
+
+

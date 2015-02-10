@@ -1,0 +1,137 @@
+﻿@model eventful.Models.KlaxonModel
+@{
+	ViewBag.Title = "Create Klaxon";
+}
+
+<h2>Create a Klaxon</h2>
+
+@using (Html.BeginForm())
+{
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="form-group">
+				@Html.LabelFor(model => model.Name)
+				@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.EqlQuery)
+				@Html.TextAreaFor(model => model.EqlQuery, new { @class = "form-control", rows = 4 })
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.ComparisonOperator)
+				@Html.TextBoxFor(model => model.ComparisonOperator, new { @class = "form-control" })
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.ComparisonThreshold)
+				@Html.TextBoxFor(model => model.ComparisonThreshold, new { @class = "form-control" })
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.CheckEvery)
+				@Html.TextBoxFor(model => model.CheckEvery, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.AggregateOperation)
+				@Html.TextBoxFor(m => m.AggregateOperation, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.FieldToAggregate)
+				@Html.TextBoxFor(m => m.FieldToAggregate, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.StartTime)
+				@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.EndTime)
+				@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Create</button>
+				<button type="button" class="btn btn-default">Test</button>
+				@Html.HiddenFor(model => model.NextCheckAt)
+				@Html.HiddenFor(model => model.LastCheckedAt)
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<p>
+				A Klaxon is a scheduled check that sends out emails to subscribers when the result of a specified query returns a value that meets a specified threshold.
+			</p>
+			<h4>Name</h4>
+			<p>Give the Klaxon a name that is unique and human understandable.</p>
+			<h4>Eql Query</h4>
+			<p>This is the query that will be used as the 'match' query for the aggregate operation. In other words the specified aggregation will be performed on the results of this query.</p>
+			<h4>Comparison Operator</h4>
+			<p>The result of the aggregate operation will be compared with the Comparison Threshold using this operator. Valid values are <code>==, !=, >=, <=, >, <</code></p>
+			<h4>Comparison Threshold</h4>
+			<p>The result of the aggregate operation will be compared with this value using the specified Comparison Operator. This value should be a number.</p>
+			<h4>Check Every</h4>
+			<p>An {e}ventful timespan specifying how often this check should be performed. Note that values under five minutes will probably not be executed reliably on schedule. Example values: <code>15 Minutes, 1 Hour, 3 Days</code></p>
+			<h4>Aggregate Operation</h4>
+			<p>The aggregate operation to perform. Valid values are <code>Count, Sum, Avg, First, Last, Max, Min</code></p>
+			<h4>Field To Aggregate</h4>
+			<p>The field to perform the specified aggregate operation on. For simple counts just use '_id'.</p>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+<div id="ModalHolder">
+</div>
+<script id="ModalTemplate" type="text/html">
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					Aggregate Result: <span data-bind="text: NumMatched"></span>
+					<br />
+					Comparison Operator: <span data-bind="text: ComparisonOperator"></span>
+					<br />
+					Comparison Threshold: <span data-bind="text: ComparisonThreshold"></span>
+					<br />
+					Threshold Test Result: <span data-bind="text: TestResult"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+</script>
+<script>
+	$(document).ready(function () {
+		function renderResults(responseText, statusText, xhr, $form) {
+			$('body').removeClass('loading');
+			var $modalHolder = $('#ModalHolder');
+			$modalHolder.html($('#ModalTemplate').text());
+			var $modalDiv = $('div.modal', $modalHolder);
+			ko.applyBindings(responseText, $modalDiv[0]);
+			console.log(responseText);
+			$modalDiv.modal();
+		}
+
+		function performTest() {
+			$('form').ajaxSubmit({
+				url: 'Klaxon/test',
+				beforeSubmit: function () { $('body').addClass('loading'); },
+				success: renderResults
+			});
+		}
+		$('body').on('click', '.btn-default', function () {
+			performTest();
+		});
+	});
+</script>

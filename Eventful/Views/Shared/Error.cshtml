@@ -1,0 +1,15 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@using NLog;
+@using EventfulLogger.LoggingUtils;
+
+@{
+    ViewBag.Title = "Error";
+}
+
+@{
+	Logger logger = LogManager.GetCurrentClassLogger();
+	logger.WyzAntError(Server.GetLastError(), "Unhandled Exception Occurred");
+}
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+

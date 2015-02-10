@@ -1,0 +1,16 @@
+syntax: glob
+bin
+obj
+*.user
+*.suo
+**/logs/**
+*.orig
+Thumbs.db
+.fsLockfile
+Bin/**
+glob:.fsLockFile
+*/packages/*
+packages/*
+App_Data/*
+*.ldf
+*.mdf
