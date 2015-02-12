@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using eventfulBackend.eventfulAggregation;
-using eventfulBackend.eventfulReporting;
-using eventfulBackend.QueryParsing;
-using eventfulBackend.Utils;
+using EventfulBackend.EventfulAggregation;
+using EventfulBackend.EventfulReporting;
+using EventfulBackend.QueryParsing;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace eventfulBackend.Klaxon
+namespace EventfulBackend.Klaxon
 {
 	public class Klaxon : MongoDBEntity
 	{
@@ -55,7 +55,7 @@ namespace eventfulBackend.Klaxon
 
 		public void Insert()
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				Klaxons.Insert(this);
@@ -64,7 +64,7 @@ namespace eventfulBackend.Klaxon
 
 		public void Update()
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				Klaxons.Save(this);
@@ -90,10 +90,10 @@ namespace eventfulBackend.Klaxon
 
 			this.LastCheckedAt = DateTime.Now;
 			string time = string.Concat("NOW + ", CheckEvery);
-			this.NextCheckAt = eventfulQueryParser.ParseRequestedTime(time, TimeZoneInfo.Local);
+			this.NextCheckAt = EventfulQueryParser.ParseRequestedTime(time, TimeZoneInfo.Local);
 			if (updateDBWithResults)
 			{
-				eventfulDBManager.ExecuteInContext((db) =>
+				EventfulDBManager.ExecuteInContext((db) =>
 				{
 					var Klaxons = getCollection(db);
 					Klaxons.Save(this);
@@ -134,7 +134,7 @@ namespace eventfulBackend.Klaxon
 		public static Klaxon GetById(string id)
 		{
 			Klaxon k = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				var query = getById(Klaxons, id);
@@ -156,7 +156,7 @@ namespace eventfulBackend.Klaxon
 
 		public static void DeleteById(string id)
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				var query = getById(Klaxons, id);
@@ -167,7 +167,7 @@ namespace eventfulBackend.Klaxon
 		public static IEnumerable<Klaxon> GetAllDueForTesting()
 		{
 			IEnumerable<Klaxon> ks = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				var k1 = Klaxons.AsQueryable().First();
@@ -190,7 +190,7 @@ namespace eventfulBackend.Klaxon
 		public static IEnumerable<Klaxon> GetAll()
 		{
 			IEnumerable<Klaxon> ks = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				ks = Klaxons.FindAll().ToArray();
@@ -208,19 +208,19 @@ namespace eventfulBackend.Klaxon
 			}
 		}
 
-		public eventfulReport GetReport()
+		public EventfulReport GetReport()
 		{
 			if (string.IsNullOrWhiteSpace(ReportId))
 			{
 				return null;
 			}
 
-			return eventfulReport.GetById(ReportId);
+			return EventfulReport.GetById(ReportId);
 		}
 
 		public static void UpdateSubscriberEmail(string oldEmail, string newEmail)
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 					var Klaxons = getCollection(db);
 					var query = getKlaxonsBySubscriberEmail(oldEmail, Klaxons);
@@ -244,7 +244,7 @@ namespace eventfulBackend.Klaxon
 
 		public static void DeleteSubscriberEmail(string deleteEmail)
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
 				var query = getKlaxonsBySubscriberEmail(deleteEmail, Klaxons);

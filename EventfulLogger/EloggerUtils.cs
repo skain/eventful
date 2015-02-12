@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using eventful.Shared.ExtensionMethods;
+using Eventful.Shared.ExtensionMethods;
 
 namespace EventfulLogger
 {

@@ -25,7 +25,7 @@ namespace EventfulLogger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("logging.smtp.wyzant.net")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{Your SMTP Server}")]
         public string SmtpServer {
             get {
                 return ((string)(this["SmtpServer"]));
@@ -71,9 +71,9 @@ namespace EventfulLogger.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("_Dev")]
-        public string eventfulGroupSuffix {
+        public string EventfulGroupSuffix {
             get {
-                return ((string)(this["eventfulGroupSuffix"]));
+                return ((string)(this["EventfulGroupSuffix"]));
             }
         }
         

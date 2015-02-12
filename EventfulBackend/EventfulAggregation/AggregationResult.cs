@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 
-namespace eventfulBackend.eventfulAggregation
+namespace EventfulBackend.EventfulAggregation
 {
 	public class AggregationResult
 	{

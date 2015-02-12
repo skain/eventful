@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using eventfulBackend.eventfulAggregation;
-using eventfulBackend.Utils;
+using EventfulBackend.EventfulAggregation;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using eventful.Shared.MongoDB;
+using Eventful.Shared.MongoDB;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
-	public class eventfulAggregateModel
+	public class EventfulAggregateModel
 	{
 		public string Match { get; set; }
 		public string Group { get; set; }
@@ -28,7 +28,7 @@ namespace eventful.Models
 		public string Title { get; set; }
 		public string GroupName { get; set; }
 
-		public eventfulAggregateModel()
+		public EventfulAggregateModel()
 		{
 			RequestedStartTime = "now - 15 minutes";
 			RequestedEndTime = "now";

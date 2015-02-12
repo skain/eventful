@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using eventful.Models;
+using Eventful.Models;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
 	public class QueryController : Controller
@@ -15,11 +15,11 @@ namespace eventful.Controllers
 
         public ActionResult Index()
         {
-            return View(new eventfulQueryModel());
+            return View(new EventfulQueryModel());
         }
 
 		[HttpPost]
-		public ActionResult Index(eventfulQueryModel eqm)
+		public ActionResult Index(EventfulQueryModel eqm)
 		{
 			eqm.ExecuteQuery();
 			return Json(eqm);

@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using eventfulBackend.Utils;
+using EventfulBackend.Utils;
 using EventfulLogger;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 using NLog;
-using eventful.Shared.Threading;
+using Eventful.Shared.Threading;
 using EventfulLogger.LoggingUtils;
 using EventfulLogger.SharedLoggers;
 
-namespace eventfulQueueProcessor
+namespace EventfulQueueProcessor
 {
 	class Program
 	{
@@ -36,10 +36,10 @@ namespace eventfulQueueProcessor
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Unhandled error in EventQueueProcessor.");
+				logger.EventfulError(e, "Unhandled error in EventQueueProcessor.");
 			}
 
-			logger.WyzAntInfo(new { EventType = "eventfulQueueProcessed", MessagesProcessed = messagesProcessed }, null, "eventfulQueueProcessor run completed. Processed {0} messages.", messagesProcessed);
+			logger.EventfulInfo(new { EventType = "EventfulQueueProcessed", MessagesProcessed = messagesProcessed }, null, "EventfulQueueProcessor run completed. Processed {0} messages.", messagesProcessed);
 			OfflineLogger.LogApplicationEnd();
 		}
 
@@ -47,7 +47,7 @@ namespace eventfulQueueProcessor
 		{
 			AmazonSQSClient client = getSQSClient();
 			ReceiveMessageRequest req = new ReceiveMessageRequest();
-			req.QueueUrl = Properties.Settings.Default.eventfulQueueUrl;
+			req.QueueUrl = Properties.Settings.Default.EventfulQueueUrl;
 			req.MaxNumberOfMessages = 10;
 
 			int messagesProcessed = 0;
@@ -55,7 +55,7 @@ namespace eventfulQueueProcessor
 			List<Task> tasks = new List<Task>();
 			ReceiveMessageResponse resp = null;
 
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var eventsCollection = db.GetCollection("eventfulEvents");
 				do
@@ -78,7 +78,7 @@ namespace eventfulQueueProcessor
 							}
 							catch (Exception e)
 							{
-								logger.WyzAntError(e, "Error processing eventful message off of the queue: {0}", m.Body);
+								logger.EventfulError(e, "Error processing eventful message off of the queue: {0}", m.Body);
 							}
 							finally
 							{
@@ -98,7 +98,7 @@ namespace eventfulQueueProcessor
 		private static void deleteSQSMessage(AmazonSQSClient client, Message m)
 		{
 			DeleteMessageRequest delReq = new DeleteMessageRequest();
-			delReq.QueueUrl = Properties.Settings.Default.eventfulQueueUrl;
+			delReq.QueueUrl = Properties.Settings.Default.EventfulQueueUrl;
 			delReq.ReceiptHandle = m.ReceiptHandle;
 
 			client.DeleteMessageAsync(delReq);
@@ -111,7 +111,7 @@ namespace eventfulQueueProcessor
 		{
 			AmazonSQSClient client = getSQSClient();
 			SendMessageRequest req = new SendMessageRequest();
-			req.QueueUrl = Properties.Settings.Default.eventfulQueueUrl;
+			req.QueueUrl = Properties.Settings.Default.EventfulQueueUrl;
 			req.MessageBody = "this is a test";
 			//SendMessageResponse resp = client.SendMessage(req);
 			//logger.Debug("Response: {0}", resp.SendMessageResult.ToJson());

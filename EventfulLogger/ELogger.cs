@@ -14,7 +14,7 @@ namespace EventfulLogger
 
 		public ELogger(string eventfulGroup)
 		{
-			string suffix = Properties.Settings.Default.eventfulGroupSuffix;
+			string suffix = Properties.Settings.Default.EventfulGroupSuffix;
 
 			if (!string.IsNullOrWhiteSpace(suffix))
 				eventfulGroup = string.Concat(eventfulGroup, suffix);
@@ -36,7 +36,7 @@ namespace EventfulLogger
 
 		#region Properties
 
-		public string eventfulGroup 
+		public string EventfulGroup 
 		{
 			get
 			{

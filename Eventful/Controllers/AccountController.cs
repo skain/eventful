@@ -10,10 +10,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-using eventful.Models;
-using eventfulBackend;
+using Eventful.Models;
+using EventfulBackend;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
 	public class AccountController : Controller
@@ -101,7 +101,7 @@ namespace eventful.Controllers
 			if (user == null)
 			{
 				//see if the gmail address is a secondary email on an existing user account
-				IEnumerable<eventfulUser> eus = eventfulUser.Search(loginInfo.Email);
+				IEnumerable<EventfulUser> eus = EventfulUser.Search(loginInfo.Email);
 				if (eus != null)
 				{
 					foreach (var eu in eus)
@@ -144,8 +144,13 @@ namespace eventful.Controllers
 				return false;
 			}
 
-			string[] allowedExternalEmails = new string[] { "mark@eightbitstudios.com", "brianlewis@eightbitstudios.com" };
-			return loginInfo.Email.EndsWith("wyzant.com") || allowedExternalEmails.Contains(loginInfo.Email.ToLower());
+			//Here you can validate that the email being logged in with via oAuth is actually allowed to log in to this eventful instance. For now we let everyone in but below are
+			//some examples of how you can restrict access...
+
+			//string[] allowedExternalEmails = new string[] { "allowedEmail1", "allowedEmail2" };
+			//return loginInfo.Email.EndsWith("allowedEmailDomain") || allowedExternalEmails.Contains(loginInfo.Email.ToLower());
+
+			return true;
 		}
 
 		//

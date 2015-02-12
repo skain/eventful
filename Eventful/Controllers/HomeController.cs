@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using NLog;
 using EventfulLogger.LoggingUtils;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
 	public class HomeController : Controller
@@ -22,11 +22,11 @@ namespace eventful.Controllers
 
 		public ActionResult LogTest()
 		{
-			logger.WyzAntDebug("This is a debug message.");
-			logger.WyzAntFatal("This is a fatal message.");
-			logger.WyzAntInfo("This is an info message.");
-			logger.WyzAntTrace("This is a trace message.");
-			logger.WyzAntWarn("This is a warn message.");
+			logger.EventfulDebug("This is a debug message.");
+			logger.EventfulFatal("This is a fatal message.");
+			logger.EventfulInfo("This is an info message.");
+			logger.EventfulTrace("This is a trace message.");
+			logger.EventfulWarn("This is a warn message.");
 
 			try
 			{
@@ -35,7 +35,7 @@ namespace eventful.Controllers
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "This is an error message (divide by 0).");
+				logger.EventfulError(e, "This is an error message (divide by 0).");
 			}
 
 			return View();

@@ -6,7 +6,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
-namespace eventfulBackend.Utils
+namespace EventfulBackend.Utils
 {
 	public abstract class MongoDBEntity
 	{

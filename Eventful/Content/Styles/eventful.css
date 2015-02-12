@@ -32,7 +32,7 @@ body {
 		z-index: 5;
 		top: 0;
 		left: 0;
-		background: Black url(//admin.wyzant.com/graphics/LoadingOrangeCircle.gif) no-repeat center center;
+		background: Black url(//Content/Graphics/LoadingOrangeCircle.gif) no-repeat center center;
 		content: ' ';
 	}
 

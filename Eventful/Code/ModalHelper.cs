@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace eventful.Code
+namespace Eventful.Code
 {
 	public class ModalHelper : IDisposable
 	{

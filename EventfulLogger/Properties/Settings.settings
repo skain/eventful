@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SmtpServer" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">logging.smtp.wyzant.net</Value>
+      <Value Profile="(Default)">{Your SMTP Server}</Value>
     </Setting>
     <Setting Name="SmtpPort" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">25</Value>
@@ -17,7 +17,7 @@
     <Setting Name="SmtpUseSSL" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="eventfulGroupSuffix" Type="System.String" Scope="Application">
+    <Setting Name="EventfulGroupSuffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">_Dev</Value>
     </Setting>
     <Setting Name="AWSServiceUrl" Type="System.String" Scope="Application">

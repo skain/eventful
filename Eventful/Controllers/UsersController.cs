@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using eventful.Models;
+using Eventful.Models;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
 	public class UsersController : Controller
     {
 		public ActionResult Account()
 		{
-			var eum = eventfulUserModel.GetOrCreateCurrentUser();
+			var eum = EventfulUserModel.GetOrCreateCurrentUser();
 			return View(eum);
 		}
         //
@@ -116,14 +116,14 @@ namespace eventful.Controllers
 			{
 				throw new ApplicationException("Error. SearchStr cannot be null or whitespace.");
 			}
-			IEnumerable<eventfulUserModel> users = eventfulUserModel.Search(searchStr);
+			IEnumerable<EventfulUserModel> users = EventfulUserModel.Search(searchStr);
 			return Json(users);
 		}
 
 		[HttpPost]
 		public ActionResult EditEmail(string newEmail, string oldEmail)
 		{
-			var u = eventfulUserModel.GetCurrentUser();
+			var u = EventfulUserModel.GetCurrentUser();
 			if (u.Emails.Contains(oldEmail))
 			{
 				u.UpdateEmail(oldEmail, newEmail);
@@ -134,7 +134,7 @@ namespace eventful.Controllers
 		[HttpPost]
 		public ActionResult AddEmail(string newEmail)
 		{
-			var u = eventfulUserModel.GetCurrentUser();
+			var u = EventfulUserModel.GetCurrentUser();
 			u.Emails.Add(newEmail);
 			u.Update();
 			return RedirectToAction("Account");
@@ -143,7 +143,7 @@ namespace eventful.Controllers
 		[HttpPost]
 		public ActionResult DeleteEmail(string deleteEmail)
 		{
-			var u = eventfulUserModel.GetCurrentUser();
+			var u = EventfulUserModel.GetCurrentUser();
 			if (u.Emails.Contains(deleteEmail))
 			{
 				u.Emails.Remove(deleteEmail);

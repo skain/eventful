@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
-using eventfulBackend.QueryParsing;
-using eventfulBackend.Utils;
+using EventfulBackend.QueryParsing;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using NLog;
 using EventfulLogger.LoggingUtils;
 
-namespace eventfulBackend.eventfulAggregation
+namespace EventfulBackend.EventfulAggregation
 {
 	public class TimeSeriesAggregator
 	{
@@ -47,12 +47,12 @@ namespace eventfulBackend.eventfulAggregation
 		public static dynamic RunAggregation(string startTimeStr, string endTimeStr, TimeZoneInfo resultsTimeZone)
 		{
 			string eqlQuery = "LogLevel == Error";
-			DateTime startTime = eventfulQueryParser.ParseRequestedTime(startTimeStr, resultsTimeZone);
-			DateTime endTime = eventfulQueryParser.ParseRequestedTime(endTimeStr, resultsTimeZone);
+			DateTime startTime = EventfulQueryParser.ParseRequestedTime(startTimeStr, resultsTimeZone);
+			DateTime endTime = EventfulQueryParser.ParseRequestedTime(endTimeStr, resultsTimeZone);
 			string aggregateOperator = "Count";
 			string aggregateFieldName = null;
 			string groupByFieldName = "ExceptionType";
-			IMongoQuery criteriaQuery = eventfulQueryParser.ParseSearchStringToIMongoQuery(eqlQuery);
+			IMongoQuery criteriaQuery = EventfulQueryParser.ParseSearchStringToIMongoQuery(eqlQuery);
 
 
 			var group = buildGroupingBsonDocument(groupByFieldName, aggregateOperator, aggregateFieldName);
@@ -115,7 +115,7 @@ namespace eventfulBackend.eventfulAggregation
 
 			try
 			{
-				eventfulDBManager.ExecuteInContext((db) =>
+				EventfulDBManager.ExecuteInContext((db) =>
 				{
 					var result = db.GetCollection("eventfulEvents").Aggregate(match, group, project);
 					//var queryResults = result.ResultDocuments.Select(bd => new { GroupName = bd.Contains("GroupName") ? bd["GroupName"].AsString : "NULL", Count = bd["Aggregate"].AsInt32 });
@@ -126,7 +126,7 @@ namespace eventfulBackend.eventfulAggregation
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Error executing Aggregate query with following params:\r\ngroup: {0}\r\nmatch: {1}\r\nproject: {2}", group, match, project);
+				logger.EventfulError(e, "Error executing Aggregate query with following params:\r\ngroup: {0}\r\nmatch: {1}\r\nproject: {2}", group, match, project);
 				throw;
 			}
 

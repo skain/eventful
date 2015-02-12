@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

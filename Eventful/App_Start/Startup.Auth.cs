@@ -7,9 +7,9 @@ using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
-using eventful.Models;
+using Eventful.Models;
 
-namespace eventful
+namespace Eventful
 {
     public partial class Startup
     {

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using eventfulBackend.Utils;
+using EventfulBackend.Utils;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace eventfulBackend
+namespace EventfulBackend
 {
-	public class eventfulUser : MongoDBEntity
+	public class EventfulUser : MongoDBEntity
 	{
 		private static readonly Regex _fromStringRE = new Regex(@"(?<username>.*?) <(?<email>.*?)> - (?<id>.*)");
 		public string Username { get; set; }
 		public List<string> Emails { get; set; }
 
-		public eventfulUser()
+		public EventfulUser()
 		{
 			Emails = new List<string>();
 		}
@@ -27,7 +27,7 @@ namespace eventfulBackend
 			}
 		}
 
-		public static eventfulUser FromString(string str)
+		public static EventfulUser FromString(string str)
 		{
 			if (!_fromStringRE.IsMatch(str))
 			{
@@ -35,7 +35,7 @@ namespace eventfulBackend
 			}
 
 			var m = _fromStringRE.Match(str);
-			eventfulUser eu = new eventfulUser
+			EventfulUser eu = new EventfulUser
 			{
 				Id = m.Groups["id"].Value,
 				Username = m.Groups["username"].Value
@@ -46,17 +46,17 @@ namespace eventfulBackend
 
 		public void Insert()
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var dbUsers = getCollection(db);
 				dbUsers.Insert(this);
 			});
 		}
 
-		public static eventfulUser GetById(string id)
+		public static EventfulUser GetById(string id)
 		{
-			eventfulUser eu = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulUser eu = null;
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var users = getCollection(db);
 				var query = from u in users.AsQueryable()
@@ -69,10 +69,10 @@ namespace eventfulBackend
 			return eu;
 		}
 
-		public static IEnumerable<eventfulUser> GetByIds(IEnumerable<string> ids)
+		public static IEnumerable<EventfulUser> GetByIds(IEnumerable<string> ids)
 		{
-			IEnumerable<eventfulUser> eus = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			IEnumerable<EventfulUser> eus = null;
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var users = getCollection(db);
 				var query = from u in users.AsQueryable()
@@ -85,10 +85,10 @@ namespace eventfulBackend
 			return eus;
 		}
 
-		public static eventfulUser GetByUsername(string username)
+		public static EventfulUser GetByUsername(string username)
 		{
-			eventfulUser eu = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulUser eu = null;
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var users = getCollection(db);
 				var query = from u in users.AsQueryable()
@@ -101,15 +101,15 @@ namespace eventfulBackend
 			return eu;
 		}
 
-		private static MongoCollection<eventfulUser> getCollection(MongoDatabase db)
+		private static MongoCollection<EventfulUser> getCollection(MongoDatabase db)
 		{
-			return db.GetCollection<eventfulUser>("eventfulUsers");
+			return db.GetCollection<EventfulUser>("eventfulUsers");
 		}
 
-		public static IEnumerable<eventfulUser> Search(string searchStr)
+		public static IEnumerable<EventfulUser> Search(string searchStr)
 		{
-			IEnumerable<eventfulUser> users = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			IEnumerable<EventfulUser> users = null;
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var usersCollection = getCollection(db);
 				var query = from u in usersCollection.AsQueryable()
@@ -125,7 +125,7 @@ namespace eventfulBackend
 
 		public void Update()
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 				{
 					var users = getCollection(db);
 					users.Save(this);

@@ -8,11 +8,20 @@
     <Setting Name="SmtpPort" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">25</Value>
     </Setting>
-    <Setting Name="SmtpUsername" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Klaxon</Value>
-    </Setting>
     <Setting Name="SmtpPassword" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{Your SMTP Password}</Value>
+    </Setting>
+    <Setting Name="SmtpUsername" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your SMTP Username}</Value>
+    </Setting>
+    <Setting Name="EventfulWebUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{URL to your Eventful Web Instance}</Value>
+    </Setting>
+    <Setting Name="SlackTeamName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your Slack Team Name}</Value>
+    </Setting>
+    <Setting Name="SlackToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{Your Secret Slack Token}</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
-using eventfulBackend.QueryParsing;
-using eventfulBackend.Utils;
+using EventfulBackend.QueryParsing;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using eventful.Shared.MongoDB;
+using Eventful.Shared.MongoDB;
 
-namespace eventfulBackend.eventfulQuerying
+namespace EventfulBackend.EventfulQuerying
 {
 	public static class BasicQuery
 	{
@@ -18,8 +18,8 @@ namespace eventfulBackend.eventfulQuerying
 		public static BasicQueryResult ExecuteQuery(string eqlQuery, string startTime, string endTime, TimeZoneInfo resultsTimeZone, int pageSize, int requestedPageNumber)
 		{
 
-			DateTime startDT = eventfulQueryParser.ParseRequestedTime(startTime, resultsTimeZone);
-			DateTime endDT = eventfulQueryParser.ParseRequestedTime(endTime, resultsTimeZone);
+			DateTime startDT = EventfulQueryParser.ParseRequestedTime(startTime, resultsTimeZone);
+			DateTime endDT = EventfulQueryParser.ParseRequestedTime(endTime, resultsTimeZone);
 
 			return ExecuteQuery(eqlQuery, startDT, endDT, resultsTimeZone, pageSize, requestedPageNumber);
 
@@ -28,7 +28,7 @@ namespace eventfulBackend.eventfulQuerying
 		public static BasicQueryResult ExecuteQuery(string eqlQuery, DateTime startTime, DateTime endTime, TimeZoneInfo resultsTimeZone, int pageSize, int requestedPageNumber)
 		{
 			eqlQuery = FormatEQLQuery(eqlQuery);
-			IMongoQuery criteriaQuery = eventfulQueryParser.ParseSearchStringToIMongoQuery(eqlQuery);
+			IMongoQuery criteriaQuery = EventfulQueryParser.ParseSearchStringToIMongoQuery(eqlQuery);
 			if (!string.IsNullOrWhiteSpace(eqlQuery) && criteriaQuery == null)
 			{
 				throw new ApplicationException(string.Format("Unable to parse EQL Query: {0}", eqlQuery));
@@ -52,7 +52,7 @@ namespace eventfulBackend.eventfulQuerying
 				PageSize = pageSize
 			};
 
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				int skip = 0;
 				int take = 500; 

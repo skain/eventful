@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace EventfulLogger
 {
-	public class eventfulLoggerNotConfiguredException : Exception
+	public class EventfulLoggerNotConfiguredException : Exception
 	{
-		public eventfulLoggerNotConfiguredException()
+		public EventfulLoggerNotConfiguredException()
 			: base()
 		{
 
 		}
 
-		public eventfulLoggerNotConfiguredException(string message)
+		public EventfulLoggerNotConfiguredException(string message)
 			: base(message)
 		{
 
 		}
 
-		public eventfulLoggerNotConfiguredException(string message, Exception originalException)
+		public EventfulLoggerNotConfiguredException(string message, Exception originalException)
 			: base(message, originalException)
 		{
 

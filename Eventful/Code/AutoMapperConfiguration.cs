@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
-using eventfulBackend;
-using eventfulBackend.eventfulAggregation;
-using eventfulBackend.eventfulReporting;
-using eventfulBackend.Klaxon;
-using eventful.Models;
+using EventfulBackend;
+using EventfulBackend.EventfulAggregation;
+using EventfulBackend.EventfulReporting;
+using EventfulBackend.Klaxon;
+using Eventful.Models;
 
-namespace eventful.Code
+namespace Eventful.Code
 {
 	public static class AutoMapperConfiguration
 	{
 		public static void ConfigureMappings()
 		{
-			Mapper.CreateMap<eventfulAggregateModel, AggregateRequest>();
-			Mapper.CreateMap<AggregateRequest, eventfulAggregateModel>();
-			Mapper.CreateMap<eventfulReportModel, eventfulReport>();
-			Mapper.CreateMap<eventfulReport, eventfulReportModel>();
-			Mapper.CreateMap<eventfulUserModel, eventfulUser>();
-			Mapper.CreateMap<eventfulUser, eventfulUserModel>();
+			Mapper.CreateMap<EventfulAggregateModel, AggregateRequest>();
+			Mapper.CreateMap<AggregateRequest, EventfulAggregateModel>();
+			Mapper.CreateMap<EventfulReportModel, EventfulReport>();
+			Mapper.CreateMap<EventfulReport, EventfulReportModel>();
+			Mapper.CreateMap<EventfulUserModel, EventfulUser>();
+			Mapper.CreateMap<EventfulUser, EventfulUserModel>();
 			Mapper.CreateMap<KlaxonModel, Klaxon>();
 			Mapper.CreateMap<Klaxon, KlaxonModel>();
 		}

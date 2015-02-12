@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using NLog;
 using RestSharp;
 
-namespace eventful.Shared.SlackAPI
+namespace Eventful.Shared.SlackAPI
 {
 	/// <summary>
 	/// The SlackClient class encapsulates communication protocols with slack.com via their API. The plan for this class is to implement SlackAPI calls on an as-needed basis.

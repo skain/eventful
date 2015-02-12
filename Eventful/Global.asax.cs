@@ -9,7 +9,7 @@ using System.Web.Routing;
 using NLog;
 using EventfulLogger.LoggingUtils;
 
-namespace eventful
+namespace Eventful
 {
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -29,12 +29,12 @@ namespace eventful
 			Exception ex = Server.GetLastError();
 			try
 			{
-				logger.WyzAntError(ex, "Unhandled application error.");
+				logger.EventfulError(ex, "Unhandled application error.");
 			}
 			catch (Exception logExc)
 			{
 
-				logger.WyzAntError("Fatal error encountered trying to log application error.  Logging error:\r\n{0}\r\n\r\nOriginal error:\r\n{1}\r\n", logExc, ex);
+				logger.EventfulError("Fatal error encountered trying to log application error.  Logging error:\r\n{0}\r\n\r\nOriginal error:\r\n{1}\r\n", logExc, ex);
 			}
 		}
     }

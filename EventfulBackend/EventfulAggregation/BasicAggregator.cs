@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using eventfulBackend.QueryParsing;
-using eventfulBackend.Utils;
+using EventfulBackend.QueryParsing;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using NLog;
-using eventful.Shared.MongoDB;
+using Eventful.Shared.MongoDB;
 using EventfulLogger.LoggingUtils;
 
-namespace eventfulBackend.eventfulAggregation
+namespace EventfulBackend.EventfulAggregation
 {
 	public static class BasicAggregator
 	{
@@ -20,16 +20,16 @@ namespace eventfulBackend.eventfulAggregation
 
 		public static AggregationResult RunAggregation(string groupByFieldName, string startTime, string endTime, TimeZoneInfo resultsTimeZone, string eqlQuery, string aggregateOperator = "count", string aggregateFieldName = null, int maxResultsBeforeOutliers = 0)
 		{
-			DateTime startDT = eventfulQueryParser.ParseRequestedTime(startTime, resultsTimeZone);
-			DateTime endDT = eventfulQueryParser.ParseRequestedTime(endTime, resultsTimeZone);
+			DateTime startDT = EventfulQueryParser.ParseRequestedTime(startTime, resultsTimeZone);
+			DateTime endDT = EventfulQueryParser.ParseRequestedTime(endTime, resultsTimeZone);
 
 			return RunAggregation(groupByFieldName, startDT, endDT, resultsTimeZone, eqlQuery, aggregateOperator, aggregateFieldName, maxResultsBeforeOutliers);
 		}
 
 		public static AggregationResult RunAggregation(string groupByFieldName, DateTime startTime, DateTime endTime, TimeZoneInfo resultsTimeZone, string eqlQuery, string aggregateOperator, string aggregateFieldName, int maxResultsBeforeOutliers)
 		{
-			eqlQuery = eventfulBackend.eventfulQuerying.BasicQuery.FormatEQLQuery(eqlQuery);
-			IMongoQuery criteriaQuery = eventfulQueryParser.ParseSearchStringToIMongoQuery(eqlQuery);
+			eqlQuery = EventfulBackend.EventfulQuerying.BasicQuery.FormatEQLQuery(eqlQuery);
+			IMongoQuery criteriaQuery = EventfulQueryParser.ParseSearchStringToIMongoQuery(eqlQuery);
 
 
 			var group = buildGroupingBsonDocument(groupByFieldName, aggregateOperator, aggregateFieldName);
@@ -82,7 +82,7 @@ namespace eventfulBackend.eventfulAggregation
 
 			try
 			{
-				eventfulDBManager.ExecuteInContext((db) =>
+				EventfulDBManager.ExecuteInContext((db) =>
 				{
 					var result = db.GetCollection("eventfulEvents").Aggregate(match, group, project);
 					var queryResults = result.ResultDocuments.Select(bd => new SingleAggregateResult { GroupName = getGroupNameFromBsonDoc(bd), AggregateValue = bd["Aggregate"].ToInt32() });
@@ -110,7 +110,7 @@ namespace eventfulBackend.eventfulAggregation
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Error executing Aggregate query with following params:\r\ngroup: {0}\r\nmatch: {1}\r\nproject: {2}", group, match, project);
+				logger.EventfulError(e, "Error executing Aggregate query with following params:\r\ngroup: {0}\r\nmatch: {1}\r\nproject: {2}", group, match, project);
 				throw;
 			}
 

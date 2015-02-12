@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using eventfulBackend;
+using EventfulBackend;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
 	public class SubscribeModel
 	{
@@ -15,7 +15,7 @@ namespace eventful.Models
 		public SubscribeModel(string klaxonIDsToSubscribeTo)
 		{
 			KlaxonIDsToSubscribeTo = klaxonIDsToSubscribeTo;
-			eventfulUserModel eum = eventfulUserModel.GetOrCreateCurrentUser();
+			EventfulUserModel eum = EventfulUserModel.GetOrCreateCurrentUser();
 			UserEmails = eum.Emails;
 			SelectedEmail = null;
 		}

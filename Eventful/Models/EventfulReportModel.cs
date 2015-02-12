@@ -3,35 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
-using eventfulBackend.eventfulAggregation;
-using eventfulBackend.eventfulReporting;
+using EventfulBackend.EventfulAggregation;
+using EventfulBackend.EventfulReporting;
 using MongoDB.Bson;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
-	public class eventfulReportModel
+	public class EventfulReportModel
 	{
 		public string Id { get; set; }
-		public IEnumerable<eventfulAggregateModel> AggregateRequests { get; set; }
+		public IEnumerable<EventfulAggregateModel> AggregateRequests { get; set; }
 		public string Title { get; set; }
 
-		public eventfulReportModel() 
+		public EventfulReportModel() 
 		{
 		}
 
-		public static eventfulReportModel FromeventfulReport(eventfulReport srcReport)
+		public static EventfulReportModel FromEventfulReport(EventfulReport srcReport)
 		{
 			if (srcReport == null)
 			{
 				return null;
 			}
 
-			return Mapper.Map<eventfulReportModel>(srcReport);
+			return Mapper.Map<EventfulReportModel>(srcReport);
 		}
 
-		public eventfulReport AsEventulReport()
+		public EventfulReport AsEventulReport()
 		{
-			return Mapper.Map<eventfulReport>(this);
+			return Mapper.Map<EventfulReport>(this);
 		}
 
 		public void Insert()
@@ -48,16 +48,16 @@ namespace eventful.Models
 			er.Update();
 		}
 
-		public static IEnumerable<eventfulReportModel> GetAllReports()
+		public static IEnumerable<EventfulReportModel> GetAllReports()
 		{
-			var reports = eventfulReport.GetAllReports();
-			return Mapper.Map<IEnumerable<eventfulReportModel>>(reports);
+			var reports = EventfulReport.GetAllReports();
+			return Mapper.Map<IEnumerable<EventfulReportModel>>(reports);
 		}
 
-		public static eventfulReportModel GetById(string id)
+		public static EventfulReportModel GetById(string id)
 		{
-			eventfulReport er = eventfulReport.GetById(id);
-			return eventfulReportModel.FromeventfulReport(er);
+			EventfulReport er = EventfulReport.GetById(id);
+			return EventfulReportModel.FromEventfulReport(er);
 		}
 	}
 }

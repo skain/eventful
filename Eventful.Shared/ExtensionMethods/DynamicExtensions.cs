@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
 
-namespace eventful.Shared.ExtensionMethods
+namespace Eventful.Shared.ExtensionMethods
 {
 	public static class DynamicExtensions
 	{

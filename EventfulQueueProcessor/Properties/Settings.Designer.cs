@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace eventfulQueueProcessor.Properties {
+namespace EventfulQueueProcessor.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,9 +26,9 @@ namespace eventfulQueueProcessor.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("{Your AWS Queue URL}")]
-        public string eventfulQueueUrl {
+        public string EventfulQueueUrl {
             get {
-                return ((string)(this["eventfulQueueUrl"]));
+                return ((string)(this["EventfulQueueUrl"]));
             }
         }
         

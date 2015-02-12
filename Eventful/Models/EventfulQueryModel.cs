@@ -6,17 +6,17 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using NLog;
-using eventful.Shared.MongoDB;
+using Eventful.Shared.MongoDB;
 using EventfulLogger.LoggingUtils;
 using MongoDB.Driver.Builders;
 using System.Text.RegularExpressions;
 using System.Dynamic;
-using eventfulBackend.eventfulQuerying;
-using eventfulBackend.Utils;
+using EventfulBackend.EventfulQuerying;
+using EventfulBackend.Utils;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
-	public class eventfulQueryModel
+	public class EventfulQueryModel
 	{
 		private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -32,7 +32,7 @@ namespace eventful.Models
 		public int RequestedPage { get; set; }
 		public long TotalResultCount { get; set; }
 
-		public eventfulQueryModel()
+		public EventfulQueryModel()
 		{
 			RequestedEndTime = "Now";
 			RequestedStartTime = "Now - 2 days";

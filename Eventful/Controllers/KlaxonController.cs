@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using eventfulBackend.Klaxon;
+using EventfulBackend.Klaxon;
 using NLog;
-using eventful.Models;
+using Eventful.Models;
 using EventfulLogger.LoggingUtils;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
 	public class KlaxonController : Controller
@@ -52,7 +52,7 @@ namespace eventful.Controllers
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Error creating Klaxon.");
+				logger.EventfulError(e, "Error creating Klaxon.");
 				return View();
 			}
 		}
@@ -121,7 +121,7 @@ namespace eventful.Controllers
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Error running test.");
+				logger.EventfulError(e, "Error running test.");
 				return Json(km);
 			}
 		}
@@ -135,7 +135,7 @@ namespace eventful.Controllers
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Error running test.");
+				logger.EventfulError(e, "Error running test.");
 			}
 
 			return RedirectToAction("Index");
@@ -160,7 +160,7 @@ namespace eventful.Controllers
 		public ActionResult SubscribeDialog(string idsStr)
 		{
 			//ensure we have created the user
-			eventfulUserModel.GetOrCreateCurrentUser();
+			EventfulUserModel.GetOrCreateCurrentUser();
 
 			string[] ids = idsStr.Split(',');
 			SubscribeModel m = new SubscribeModel(idsStr);
@@ -182,7 +182,7 @@ namespace eventful.Controllers
 
 		public ActionResult Unsubscribe(string idsStr)
 		{
-			eventfulUserModel eum = eventfulUserModel.GetOrCreateCurrentUser();
+			EventfulUserModel eum = EventfulUserModel.GetOrCreateCurrentUser();
 			string[] ids = idsStr.Split(',');
 			foreach (string id in ids.Where(i => !string.IsNullOrWhiteSpace(i)))
 			{

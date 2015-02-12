@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using eventfulBackend.Utils;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using NLog;
 
-namespace eventfulBackend.QueryParsing
+namespace EventfulBackend.QueryParsing
 {
-	public static class eventfulQueryParser
+	public static class EventfulQueryParser
 	{
 		private static Logger logger = LogManager.GetCurrentClassLogger();
 

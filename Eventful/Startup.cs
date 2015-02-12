@@ -1,9 +1,9 @@
-﻿using eventful.Code;
+﻿using Eventful.Code;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(eventful.Startup))]
-namespace eventful
+[assembly: OwinStartupAttribute(typeof(Eventful.Startup))]
+namespace Eventful
 {
     public partial class Startup
     {

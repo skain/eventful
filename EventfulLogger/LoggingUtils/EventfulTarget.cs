@@ -11,7 +11,7 @@ namespace EventfulLogger.LoggingUtils
 	{
 		#region Members
 
-		public string eventfulGroup { get; set; }
+		public string EventfulGroup { get; set; }
 		public string ApplicationName { get; set; }
 		public string ServiceUrl { get; set; }
 		public string QueueUrl { get; set; }
@@ -49,10 +49,10 @@ namespace EventfulLogger.LoggingUtils
 
 		private string determineEventfulGroup()
 		{
-			if (string.IsNullOrWhiteSpace(eventfulGroup))
+			if (string.IsNullOrWhiteSpace(EventfulGroup))
 				return "Unspecified";
 
-			return eventfulGroup;
+			return EventfulGroup;
 		}
 
 		private dynamic buildEventInfo(LogEventInfo nLogEventInfo)

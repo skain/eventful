@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EventfulLogger
 {
-	public class eventfulTimer : IDisposable
+	public class EventfulTimer : IDisposable
 	{
 		private ELogger _eLogger = null;
 		private Stopwatch _stopwatch = null;
@@ -15,7 +15,7 @@ namespace EventfulLogger
 		private DateTime? _deleteAfter = null;
 		private bool _logAsync = true;
 
-		public eventfulTimer(string eventfulGroup, DateTime? deleteAfter = null, bool logAsync = true)
+		public EventfulTimer(string eventfulGroup, DateTime? deleteAfter = null, bool logAsync = true)
 		{
 			_eLogger = new ELogger(eventfulGroup);
 			_deleteAfter = deleteAfter;
@@ -24,7 +24,7 @@ namespace EventfulLogger
 			_stopwatch.Start();
 		}
 
-		public eventfulTimer(string eventfulGroup, TimeSpan deleteAfter, bool logAsync = true) : this(eventfulGroup, DateTime.Now + deleteAfter, logAsync)
+		public EventfulTimer(string eventfulGroup, TimeSpan deleteAfter, bool logAsync = true) : this(eventfulGroup, DateTime.Now + deleteAfter, logAsync)
 		{
 
 		}

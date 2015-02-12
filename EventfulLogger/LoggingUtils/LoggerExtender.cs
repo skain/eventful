@@ -7,7 +7,7 @@ using System.Threading;
 using System.Web;
 using EventfulLogger;
 using NLog;
-using eventful.Shared.ExtensionMethods;
+using Eventful.Shared.ExtensionMethods;
 
 namespace EventfulLogger.LoggingUtils
 {
@@ -22,9 +22,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntTrace(this Logger logger, string message, params object[] msgParms)
+		public static void EventfulTrace(this Logger logger, string message, params object[] msgParms)
 		{
-			WyzAntTrace(logger, null, null, message, msgParms: msgParms);
+			EventfulTrace(logger, null, null, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -34,9 +34,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="exception"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntTrace(this Logger logger, Exception exception, string message, params object[] msgParms)
+		public static void EventfulTrace(this Logger logger, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntTrace(logger, null, exception, message, msgParms: msgParms);
+			EventfulTrace(logger, null, exception, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -45,9 +45,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntTrace(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulTrace(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Trace, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Trace, eventfulPayload, exception, message, msgParms);
 		}
 
 		#endregion
@@ -59,9 +59,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntDebug(this Logger logger, string message, params object[] msgParms)
+		public static void EventfulDebug(this Logger logger, string message, params object[] msgParms)
 		{
-			WyzAntDebug(logger, null, null, message, msgParms: msgParms);
+			EventfulDebug(logger, null, null, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -71,9 +71,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="exception"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntDebug(this Logger logger, Exception exception, string message, params object[] msgParms)
+		public static void EventfulDebug(this Logger logger, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntDebug(logger, null, exception, message, msgParms: msgParms);
+			EventfulDebug(logger, null, exception, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -82,9 +82,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntDebug(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulDebug(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Debug, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Debug, eventfulPayload, exception, message, msgParms);
 		}
 		#endregion
 
@@ -95,14 +95,14 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntInfo(this Logger logger, string message, params object[] msgParms)
+		public static void EventfulInfo(this Logger logger, string message, params object[] msgParms)
 		{
-			WyzAntInfo(logger, null, null, message, msgParms: msgParms);
+			EventfulInfo(logger, null, null, message, msgParms: msgParms);
 		}
 
-		public static void WyzAntInfo(this Logger logger, Exception exception, string message, params object[] msgParms)
+		public static void EventfulInfo(this Logger logger, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntInfo(logger, null, exception, message, msgParms: msgParms);
+			EventfulInfo(logger, null, exception, message, msgParms: msgParms);
 		}
 		/// <summary>
 		/// Log an Info level log event with an eventful payload, formatted exception data and HttpContext data if available.
@@ -110,9 +110,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntInfo(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulInfo(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Info, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Info, eventfulPayload, exception, message, msgParms);
 		}
 		#endregion Info
 
@@ -123,9 +123,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntWarn(this Logger logger, string message, params object[] msgParms)
+		public static void EventfulWarn(this Logger logger, string message, params object[] msgParms)
 		{
-			WyzAntWarn(logger, null, null, message, msgParms: msgParms);
+			EventfulWarn(logger, null, null, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -135,9 +135,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="exception"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntWarn(this Logger logger, Exception exception, string message, params object[] msgParms)
+		public static void EventfulWarn(this Logger logger, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntWarn(logger, null, exception, message, msgParms: msgParms);
+			EventfulWarn(logger, null, exception, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -146,9 +146,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntWarn(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulWarn(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Warn, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Warn, eventfulPayload, exception, message, msgParms);
 		}
 		#endregion
 
@@ -159,14 +159,14 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntError(this Logger logger, string message, params object[] msgParms)
+		public static void EventfulError(this Logger logger, string message, params object[] msgParms)
 		{
-			WyzAntError(logger, eventfulPayload: null, exception: null, message: message, msgParms: msgParms);
+			EventfulError(logger, eventfulPayload: null, exception: null, message: message, msgParms: msgParms);
 		}
 
-		public static void WyzAntError(this Logger logger, Exception exception, string message, params object[] msgParms)
+		public static void EventfulError(this Logger logger, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntError(logger, null, exception, message, msgParms: msgParms);
+			EventfulError(logger, null, exception, message, msgParms: msgParms);
 		}
 		/// <summary>
 		/// Log an Error level log event with formatted exception data and HttpContext data if available.
@@ -174,9 +174,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntError(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulError(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Error, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Error, eventfulPayload, exception, message, msgParms);
 		}
 		#endregion
 
@@ -187,9 +187,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntFatal(this Logger logger, string message, params object[] msgParms)
+		public static void EventfulFatal(this Logger logger, string message, params object[] msgParms)
 		{
-			WyzAntFatal(logger, null, null, message, msgParms: msgParms);
+			EventfulFatal(logger, null, null, message, msgParms: msgParms);
 		}
 
 		/// <summary>
@@ -198,9 +198,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntFatal(this Logger logger, Exception exception, string message, params object[] msgParms)
+		public static void EventfulFatal(this Logger logger, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Fatal, null, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Fatal, null, exception, message, msgParms);
 		}
 
 		/// <summary>
@@ -209,9 +209,9 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="logger"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntFatal(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulFatal(this Logger logger, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, LogLevel.Fatal, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, LogLevel.Fatal, eventfulPayload, exception, message, msgParms);
 		}
 		#endregion
 
@@ -224,14 +224,14 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="exception"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntLog(this Logger logger, LogLevel logLevel, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulLog(this Logger logger, LogLevel logLevel, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, null, logLevel, eventfulPayload, exception, message, msgParms);
+			EventfulLog(logger, null, logLevel, eventfulPayload, exception, message, msgParms);
 		}
 
-		public static void WyzAntLog(this Logger logger, LogEventInfo lei, LogLevel logLevel, object eventfulPayload, Exception exception, string message, params object[] msgParms)
+		public static void EventfulLog(this Logger logger, LogEventInfo lei, LogLevel logLevel, object eventfulPayload, Exception exception, string message, params object[] msgParms)
 		{
-			WyzAntLog(logger, lei, logLevel, eventfulPayload, exception, null, message, null, null, null, msgParms);
+			EventfulLog(logger, lei, logLevel, eventfulPayload, exception, null, message, null, null, null, msgParms);
 		}
 
 		/// <summary>
@@ -244,7 +244,7 @@ namespace EventfulLogger.LoggingUtils
 		/// <param name="exception"></param>
 		/// <param name="message"></param>
 		/// <param name="msgParms"></param>
-		public static void WyzAntLog(this Logger logger, LogEventInfo lei, LogLevel logLevel, object eventfulPayload, Exception exception, HttpContext httpContext, string message, string httpUser_override, string machineName_override, string applicationName_override, params object[] msgParms)
+		public static void EventfulLog(this Logger logger, LogEventInfo lei, LogLevel logLevel, object eventfulPayload, Exception exception, HttpContext httpContext, string message, string httpUser_override, string machineName_override, string applicationName_override, params object[] msgParms)
 		{
 			try
 			{
@@ -272,23 +272,23 @@ namespace EventfulLogger.LoggingUtils
 			{
 				var strings = msgParms.Select(mp => mp == null ? "NULL" : mp.ToString());
 				var formatted = string.Join("\r\n", strings);
-				_localLogger.Error("Error in WyzAnt LoggerExtender.\r\n\r\nOriginal LogMessage:\r\n{0}\r\nLogMessage Arguments:\r\n{1}\r\nException:{2}", message, formatted, e.ToString());
+				_localLogger.Error("Error in Eventful LoggerExtender.\r\n\r\nOriginal LogMessage:\r\n{0}\r\nLogMessage Arguments:\r\n{1}\r\nException:{2}", message, formatted, e.ToString());
 			}
 		}
 		#endregion
 
 		#region Testing
-		public static void TestWyzAntLogging(this Logger logger)
+		public static void TestEventfulLogging(this Logger logger)
 		{
-			logger.WyzAntDebug("This is a debug message: {0}", DateTime.Now.ToString());
+			logger.EventfulDebug("This is a debug message: {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntTrace("This is a trace message: {0}", DateTime.Now.ToString());
+			logger.EventfulTrace("This is a trace message: {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntInfo("This is an info message: {0}", DateTime.Now.ToString());
+			logger.EventfulInfo("This is an info message: {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntWarn("This is a warn message: {0}", DateTime.Now.ToString());
+			logger.EventfulWarn("This is a warn message: {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntFatal("This is a fatal message: {0}", DateTime.Now.ToString());
+			logger.EventfulFatal("This is a fatal message: {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
 
 			try
@@ -297,24 +297,24 @@ namespace EventfulLogger.LoggingUtils
 			}
 			catch (Exception ex)
 			{
-				logger.WyzAntError(ex, "This is an error message: {0}", DateTime.Now.ToString());
+				logger.EventfulError(ex, "This is an error message: {0}", DateTime.Now.ToString());
 			}
 
 			Thread.Sleep(3000);
 		}
 
-		public static void TestWyzAntLoggingWitheventfulPayloads(this Logger logger)
+		public static void TestEventfulLoggingWitheventfulPayloads(this Logger logger)
 		{
 			var payload = new { StringVal = "one", IntVal = 42 };
-			logger.WyzAntDebug(payload, null, "This is a debug message (with payload): {0}", DateTime.Now.ToString());
+			logger.EventfulDebug(payload, null, "This is a debug message (with payload): {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntTrace(payload, null, "This is a trace message (with payload): {0}", DateTime.Now.ToString());
+			logger.EventfulTrace(payload, null, "This is a trace message (with payload): {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntInfo(payload, null, "This is an info message (with payload): {0}", DateTime.Now.ToString());
+			logger.EventfulInfo(payload, null, "This is an info message (with payload): {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntWarn(payload, null, "This is a warn message (with payload): {0}", DateTime.Now.ToString());
+			logger.EventfulWarn(payload, null, "This is a warn message (with payload): {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
-			logger.WyzAntFatal(payload, null, "This is a fatal message (with payload): {0}", DateTime.Now.ToString());
+			logger.EventfulFatal(payload, null, "This is a fatal message (with payload): {0}", DateTime.Now.ToString());
 			Thread.Sleep(1000);
 
 			try
@@ -323,7 +323,7 @@ namespace EventfulLogger.LoggingUtils
 			}
 			catch (Exception ex)
 			{
-				logger.WyzAntError(payload, ex, "This is an error  (with payload): {0}", DateTime.Now.ToString());
+				logger.EventfulError(payload, ex, "This is an error  (with payload): {0}", DateTime.Now.ToString());
 			}
 
 			Thread.Sleep(3000);

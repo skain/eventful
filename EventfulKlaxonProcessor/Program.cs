@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using eventfulBackend.Klaxon;
+using EventfulBackend.Klaxon;
 using EventfulLogger.LoggingUtils;
 using NLog;
-using eventfulBackend.eventfulReporting;
+using EventfulBackend.EventfulReporting;
 using System.Net.Mail;
 using System.Web;
 using EventfulLogger.SharedLoggers;
-using eventfulBackend.Utils;
+using EventfulBackend.Utils;
 using System.Threading;
-using eventful.Shared.SlackAPI;
-using eventful.Shared.Strings;
+using Eventful.Shared.SlackAPI;
+using Eventful.Shared.Strings;
 
 namespace EventfulKlaxonProcessor
 {
@@ -32,7 +32,7 @@ namespace EventfulKlaxonProcessor
 				}
 				catch (Exception e)
 				{
-					logger.WyzAntError(e, "Unhandled Error during EventfulKlaxonProcessor run.");
+					logger.EventfulError(e, "Unhandled Error during EventfulKlaxonProcessor run.");
 				}
 
 				Thread.Sleep(10000);
@@ -42,7 +42,7 @@ namespace EventfulKlaxonProcessor
 
 		private static void sentTestEmail(string emailTo)
 		{
-			MailMessage mm = new MailMessage("klaxon@wyzant.com", emailTo);
+			MailMessage mm = new MailMessage("klaxon@eventful.com", emailTo);
 			mm.Body = "This is a test";
 			sendMailMessage(mm);
 		}
@@ -50,7 +50,7 @@ namespace EventfulKlaxonProcessor
 		private static void processKlaxons()
 		{
 			IEnumerable<Klaxon> klaxons = Klaxon.GetAllDueForTesting();
-			logger.WyzAntDebug("Found {0} Klaxons to process", klaxons.Count());
+			logger.EventfulDebug("Found {0} Klaxons to process", klaxons.Count());
 			foreach (var k in klaxons)
 			{
 				string subject = string.Format("Klaxon test failed: {0}", k.Name);
@@ -60,7 +60,7 @@ namespace EventfulKlaxonProcessor
 					k.RunTest(true);
 					if (k.TestResult)
 					{
-						eventfulReport r = k.GetReport();
+						EventfulReport r = k.GetReport();
 						string reportLink = string.Empty;
 						string resultsTable = string.Empty;
 						string resultsForSlack = string.Empty;
@@ -74,7 +74,7 @@ namespace EventfulKlaxonProcessor
 							}
 							catch (Exception e)
 							{
-								logger.WyzAntError(e, "Error pulling or formatting Klaxon report.");
+								logger.EventfulError(e, "Error pulling or formatting Klaxon report.");
 							}
 						}
 						else
@@ -95,31 +95,31 @@ namespace EventfulKlaxonProcessor
 						}
 						catch (Exception e)
 						{
-							logger.WyzAntError(e, "Error formatting Klaxon email.");
+							logger.EventfulError(e, "Error formatting Klaxon email.");
 						}
 
 						foreach (var email in k.SubscriberEmails)
 						{
 							try
 							{
-								MailMessage mm = new MailMessage("klaxon@wyzant.com", email, subject, body);
+								MailMessage mm = new MailMessage("klaxon@eventful.com", email, subject, body);
 								mm.IsBodyHtml = true;
 								sendMailMessage(mm);
 							}
 							catch (Exception e)
 							{
-								logger.WyzAntError(e, "Error sending Klaxon email to: '{0}'", email);
+								logger.EventfulError(e, "Error sending Klaxon email to: '{0}'", email);
 							}
 						}
 
 						string reportHref = buildKlaxonReportHref(k, r) ?? buildKlaxonAggregateHref(k);
 						sendToSlack(subject, statement, reportHref, resultsForSlack);
 					}
-					logger.WyzAntDebug("Processed Klaxon: {0}.", k.Name);
+					logger.EventfulDebug("Processed Klaxon: {0}.", k.Name);
 				}
 				catch (Exception e)
 				{
-					logger.WyzAntError(e, "Error processing Klaxon: {0}", k == null ? "NULL" : k.Name);
+					logger.EventfulError(e, "Error processing Klaxon: {0}", k == null ? "NULL" : k.Name);
 				}
 			}
 		}
@@ -130,7 +130,7 @@ namespace EventfulKlaxonProcessor
 			statement = HtmlUtils.StripHtml(statement, false);
 			reportHref = string.IsNullOrWhiteSpace(reportHref) ? string.Empty : string.Format("\r\nClick <{0}|here> to view report\r\n", reportHref);
 			resultsForSlack = string.Concat(reportHref, resultsForSlack);
-			SlackClient client = new SlackClient("wyzant", "IcdeMce3HAKGndgRlgz5JXVr");
+			SlackClient client = new SlackClient(Properties.Settings.Default.SlackTeamName, Properties.Settings.Default.SlackToken);
 			SlackMessage msg = new SlackMessage { username = "KlaxonProcessor" };
 			msg.text = subject;
 			SlackMessageAttachment att = new SlackMessageAttachment { fallback = subject, pretext = statement, text = resultsForSlack };
@@ -149,7 +149,7 @@ namespace EventfulKlaxonProcessor
 			smtpClient.Send(mm);
 		}
 
-		private static string buildKlaxonReportLink(Klaxon k, eventfulReport r)
+		private static string buildKlaxonReportLink(Klaxon k, EventfulReport r)
 		{
 			string reportLink = null;
 			string href = buildKlaxonReportHref(k, r);
@@ -157,15 +157,22 @@ namespace EventfulKlaxonProcessor
 			return reportLink;
 		}
 
-		private static string buildKlaxonReportHref(Klaxon k, eventfulReport r)
+		private static string buildKlaxonReportHref(Klaxon k, EventfulReport r)
 		{
 			if (r == null)
 			{
 				return null;
 			}
 			string qs = getTimespanQSFromKlaxon(k, true);
-			string href = string.Format("http://eventful.wyzant.com/reports/view/{0}?{1}", r.Id, qs);
+			string href = buildEventfulUrl(string.Format("/reports/view/{0}?{1}", r.Id, qs));
 			return href;
+		}
+
+		private static string buildEventfulUrl(string webPath)
+		{
+			Uri baseUri = new Uri(Properties.Settings.Default.EventfulWebUrl);
+			Uri builtUri = new Uri(baseUri, webPath);
+			return builtUri.AbsoluteUri;
 		}
 
 		private static string buildKlaxonAggregateLink(Klaxon k)
@@ -176,7 +183,7 @@ namespace EventfulKlaxonProcessor
 
 		private static string buildKlaxonAggregateHref(Klaxon k)
 		{
-			string aggLink = "http://eventful.wyzant.com/aggregate?{0}&EqlQuery={1}&AggregateOperator={2}&AggregateFieldName={3}";
+			string aggLink = buildEventfulUrl("/aggregate?{0}&EqlQuery={1}&AggregateOperator={2}&AggregateFieldName={3}");
 			string ts = getTimespanQSFromKlaxon(k, false);
 			string aggOp = encodeValueForURL(k.AggregateOperation);
 			string aggField = encodeValueForURL(k.FieldToAggregate);

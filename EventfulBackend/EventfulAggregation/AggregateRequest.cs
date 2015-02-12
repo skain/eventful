@@ -5,7 +5,7 @@ using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace eventfulBackend.eventfulAggregation
+namespace EventfulBackend.EventfulAggregation
 {
 	public class AggregateRequest
 	{

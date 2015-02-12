@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace eventful.Code
+namespace Eventful.Code
 {
 	public static class HtmlExtensions
 	{

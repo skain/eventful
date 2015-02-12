@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
-using eventfulBackend;
-using eventfulBackend.Klaxon;
-using eventfulBackend.Utils;
+using EventfulBackend;
+using EventfulBackend.Klaxon;
+using EventfulBackend.Utils;
 using EventfulLogger;
 using NLog;
 using EventfulLogger.LoggingUtils;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
 	public class KlaxonModel
 	{
@@ -30,7 +30,7 @@ namespace eventful.Models
 		public string StartTime { get; set; }
 		public string EndTime { get; set; }
 		public bool TestResult { get; private set; }
-		public eventfulReportModel ReportToLink { get; set; }
+		public EventfulReportModel ReportToLink { get; set; }
 
 		public bool CurrentUserIsSubscribed
 		{
@@ -40,7 +40,7 @@ namespace eventful.Models
 				{
 					return false;
 				}
-				eventfulUserModel user = eventfulUserModel.GetOrCreateCurrentUser();
+				EventfulUserModel user = EventfulUserModel.GetOrCreateCurrentUser();
 				return SubscriberEmails.Any(s => user.Emails.Contains(s));
 			}
 		}
@@ -64,7 +64,7 @@ namespace eventful.Models
 			km.ConvertAllTimeMembers(TimeZoneInfo.Local, TimeZoneUtils.CST);
 			km.TestResult = Klaxon.TestResult;
 			var r = Klaxon.GetReport();
-			km.ReportToLink = eventfulReportModel.FromeventfulReport(r);
+			km.ReportToLink = EventfulReportModel.FromEventfulReport(r);
 			return km;
 		}
 
@@ -77,7 +77,7 @@ namespace eventful.Models
 
 		public void Create()
 		{
-			var user = eventfulUserModel.GetOrCreateCurrentUser();
+			var user = EventfulUserModel.GetOrCreateCurrentUser();
 			SubscriberEmails = new List<string>();
 			this.SubscriberEmails.Add(user.Emails.First());
 			var k = this.AsKlaxon();
@@ -151,14 +151,14 @@ namespace eventful.Models
 		{
 			if (CurrentUserIsSubscribed)
 			{
-				eventfulUserModel user = eventfulUserModel.GetCurrentUser();
+				EventfulUserModel user = EventfulUserModel.GetCurrentUser();
 				SubscriberEmails.RemoveAll(se => user.Emails.Contains(se));
 				this.AsKlaxon().Update();
 				return false;
 			}
 			else
 			{
-				eventfulUserModel eum = eventfulUserModel.GetOrCreateCurrentUser();
+				EventfulUserModel eum = EventfulUserModel.GetOrCreateCurrentUser();
 				SubscriberEmails.Add(eum.Emails.First());
 				this.AsKlaxon().Update();
 				return true;

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using eventfulBackend.eventfulReporting;
-using eventful.Models;
+using EventfulBackend.EventfulReporting;
+using Eventful.Models;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
 	public class ReportsController : Controller
@@ -24,18 +24,18 @@ namespace eventful.Controllers
 
 		public new ActionResult View(string id)
 		{
-			var model = eventfulReportModel.GetById(id);
+			var model = EventfulReportModel.GetById(id);
 			return View(model);
 		}
 
 
 		public ActionResult Create()
 		{
-			return View(new eventfulReportModel());
+			return View(new EventfulReportModel());
 		}
 
 		[HttpPost]
-		public JsonResult Create(eventfulReportModel model)
+		public JsonResult Create(EventfulReportModel model)
 		{
 			model.Insert();
 			return Json(model);
@@ -45,12 +45,12 @@ namespace eventful.Controllers
 
 		public ActionResult Edit(string id)
 		{
-			var model = eventfulReportModel.GetById(id);
+			var model = EventfulReportModel.GetById(id);
 			return View(model);
 		}
 
 		[HttpPost]
-		public JsonResult Edit(eventfulReportModel model)
+		public JsonResult Edit(EventfulReportModel model)
 		{
 			model.Update();
 			return Json(model);
@@ -59,7 +59,7 @@ namespace eventful.Controllers
 		
 		public ActionResult Delete(string id)
 		{
-			eventfulReport.DeleteById(id);
+			EventfulReport.DeleteById(id);
 			return RedirectToAction("Index");
 		}
 

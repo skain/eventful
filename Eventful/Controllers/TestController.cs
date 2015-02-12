@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
     public class TestController : Controller
     {

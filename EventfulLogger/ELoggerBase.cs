@@ -6,7 +6,7 @@ using System.Threading;
 using System.Web;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using eventful.Shared.ExtensionMethods;
+using Eventful.Shared.ExtensionMethods;
 using Newtonsoft.Json;
 
 namespace EventfulLogger
@@ -29,16 +29,16 @@ namespace EventfulLogger
 		public static ELoggerBase Create(string awsServiceUrl, string awsQueueUrl, string awsAccessKey, string awsSecretKey, string eventfulGroup)
 		{
 			if (string.IsNullOrWhiteSpace(awsServiceUrl))
-				throw new eventfulLoggerNotConfiguredException("AWS service URL is required.");
+				throw new EventfulLoggerNotConfiguredException("AWS service URL is required.");
 
 			if (string.IsNullOrWhiteSpace(awsQueueUrl))
-				throw new eventfulLoggerNotConfiguredException("AWS queue URL is required.");
+				throw new EventfulLoggerNotConfiguredException("AWS queue URL is required.");
 
 			if (string.IsNullOrWhiteSpace(awsAccessKey))
-				throw new eventfulLoggerNotConfiguredException("AWS access key is required.");
+				throw new EventfulLoggerNotConfiguredException("AWS access key is required.");
 
 			if (string.IsNullOrWhiteSpace(awsSecretKey))
-				throw new eventfulLoggerNotConfiguredException("AWS secret key is required.");
+				throw new EventfulLoggerNotConfiguredException("AWS secret key is required.");
 
 			return new ELoggerBase(awsServiceUrl, awsQueueUrl, awsAccessKey, awsSecretKey, eventfulGroup);
 		}
@@ -195,7 +195,7 @@ namespace EventfulLogger
 			//			  + "Data Intended to Log: " + Environment.NewLine
 			//			  + dataIntendedToLog.Dump();
 
-			smtpClient.Send(new MailMessage("error@wyzant.com", "error@wyzant.com", "Error posting to AmazonSQS", messageBody));
+			smtpClient.Send(new MailMessage("error@eventful.com", "error@eventul.com", "Error posting to AmazonSQS", messageBody));
 		}
 
 		#endregion

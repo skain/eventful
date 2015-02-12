@@ -43,7 +43,16 @@ namespace EventfulKlaxonProcessor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Klaxon")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{Your SMTP Password}")]
+        public string SmtpPassword {
+            get {
+                return ((string)(this["SmtpPassword"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{Your SMTP Username}")]
         public string SmtpUsername {
             get {
                 return ((string)(this["SmtpUsername"]));
@@ -52,10 +61,28 @@ namespace EventfulKlaxonProcessor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{Your SMTP Password}")]
-        public string SmtpPassword {
+        [global::System.Configuration.DefaultSettingValueAttribute("{URL to your Eventful Web Instance}")]
+        public string EventfulWebUrl {
             get {
-                return ((string)(this["SmtpPassword"]));
+                return ((string)(this["EventfulWebUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{Your Slack Team Name}")]
+        public string SlackTeamName {
+            get {
+                return ((string)(this["SlackTeamName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{Your Secret Slack Token}")]
+        public string SlackToken {
+            get {
+                return ((string)(this["SlackToken"]));
             }
         }
     }

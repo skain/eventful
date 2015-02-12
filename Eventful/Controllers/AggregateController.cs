@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using eventful.Models;
-using eventfulBackend.Utils;
+using Eventful.Models;
+using EventfulBackend.Utils;
 using NLog;
 using EventfulLogger.LoggingUtils;
 
-namespace eventful.Controllers
+namespace Eventful.Controllers
 {
 	[Authorize]
     public class AggregateController : Controller
@@ -20,11 +20,11 @@ namespace eventful.Controllers
 
         public ActionResult Index()
         {
-			return View(new eventfulAggregateModel { MaxResultsBeforeOutliers = 5 });
+			return View(new EventfulAggregateModel { MaxResultsBeforeOutliers = 5 });
         }
 
 		[HttpPost]
-		public ActionResult Index(eventfulAggregateModel model)
+		public ActionResult Index(EventfulAggregateModel model)
 		{
 			try
 			{ 
@@ -33,7 +33,7 @@ namespace eventful.Controllers
 			}
 			catch (Exception e)
 			{
-				logger.WyzAntError(e, "Error processing aggregate request.");
+				logger.EventfulError(e, "Error processing aggregate request.");
 				return View("Error");
 			}
 
@@ -47,7 +47,7 @@ namespace eventful.Controllers
 		[HttpPost]
 		public ActionResult TimeTest(string startTime, string endTime)
 		{
-			var result = eventfulBackend.eventfulAggregation.TimeSeriesAggregator.RunAggregation(startTime, endTime, TimeZoneUtils.CST);
+			var result = EventfulBackend.EventfulAggregation.TimeSeriesAggregator.RunAggregation(startTime, endTime, TimeZoneUtils.CST);
 			return Json(result);
 		}
     }

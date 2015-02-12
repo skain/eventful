@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace eventful.Shared.MongoDB
+namespace Eventful.Shared.MongoDB
 {
 	public class MongoDBUtilsException : Exception
 	{

@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using eventfulBackend.eventfulReporting;
+using EventfulBackend.EventfulReporting;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
 	public class ReportListModel
 	{
-		public IEnumerable<eventfulReportModel> eventfulReports { get; private set;}
+		public IEnumerable<EventfulReportModel> EventfulReports { get; private set;}
 
 		public static ReportListModel GetReports()
 		{
 			ReportListModel retVal = new ReportListModel();
-			retVal.eventfulReports = eventfulReportModel.GetAllReports();
+			retVal.EventfulReports = EventfulReportModel.GetAllReports();
 			return retVal;
 		}
 	}

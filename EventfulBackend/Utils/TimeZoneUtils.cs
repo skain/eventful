@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NLog;
 using EventfulLogger.LoggingUtils;
 
-namespace eventfulBackend.Utils
+namespace EventfulBackend.Utils
 {
 	public class TimeZoneUtils
 	{
@@ -55,7 +55,7 @@ namespace eventfulBackend.Utils
 				}
 				catch
 				{
-					logger.WyzAntError(new { srcDateTime = srcDateTime, srcTimeZone = srcTimeZone, destTimeZone = destTimeZone }, null, "Error converting DateTime.");
+					logger.EventfulError(new { srcDateTime = srcDateTime, srcTimeZone = srcTimeZone, destTimeZone = destTimeZone }, null, "Error converting DateTime.");
 					throw;
 				}
 			}

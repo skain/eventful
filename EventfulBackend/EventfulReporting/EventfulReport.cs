@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using eventfulBackend.eventfulAggregation;
-using eventfulBackend.Utils;
+using EventfulBackend.EventfulAggregation;
+using EventfulBackend.Utils;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
@@ -13,9 +13,9 @@ using MongoDB.Driver.Linq;
 using NLog;
 using System.Web;
 
-namespace eventfulBackend.eventfulReporting
+namespace EventfulBackend.EventfulReporting
 {
-	public class eventfulReport : MongoDBEntity
+	public class EventfulReport : MongoDBEntity
 	{
 		private static Logger logger = LogManager.GetCurrentClassLogger();
 	
@@ -24,22 +24,22 @@ namespace eventfulBackend.eventfulReporting
 
 		public void Insert()
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var dbReports = getReportsCollection(db);
 				dbReports.Insert(this);
 			});
 		}
 
-		private static MongoCollection<eventfulReport> getReportsCollection(MongoDatabase db)
+		private static MongoCollection<EventfulReport> getReportsCollection(MongoDatabase db)
 		{
-			return db.GetCollection<eventfulReport>("eventfulReports");
+			return db.GetCollection<EventfulReport>("eventfulReports");
 		}
 
-		public static IEnumerable<eventfulReport> GetAllReports()
+		public static IEnumerable<EventfulReport> GetAllReports()
 		{
-			IEnumerable<eventfulReport> retVal = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			IEnumerable<EventfulReport> retVal = null;
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var dbReports = getReportsCollection(db);
 				retVal = dbReports.FindAll().ToArray();
@@ -48,10 +48,10 @@ namespace eventfulBackend.eventfulReporting
 			return retVal;
 		}
 
-		public static eventfulReport GetById(string id)
+		public static EventfulReport GetById(string id)
 		{
-			eventfulReport er = null;
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulReport er = null;
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var dbReports = getReportsCollection(db);
 				var query = getById(dbReports, id);
@@ -62,7 +62,7 @@ namespace eventfulBackend.eventfulReporting
 			return er;
 		}
 
-		private static IQueryable<eventfulReport> getById(MongoCollection<eventfulReport> dbReports, string id)
+		private static IQueryable<EventfulReport> getById(MongoCollection<EventfulReport> dbReports, string id)
 		{
 			var query = from r in dbReports.AsQueryable()
 						where r.Id == id
@@ -72,17 +72,17 @@ namespace eventfulBackend.eventfulReporting
 
 		public static void DeleteById(string id)
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var dbReports = getReportsCollection(db);
 				var query = getById(dbReports, id);
-				dbReports.Remove(((MongoQueryable<eventfulReport>)query).GetMongoQuery());
+				dbReports.Remove(((MongoQueryable<EventfulReport>)query).GetMongoQuery());
 			});
 		}
 
 		public void Update()
 		{
-			eventfulDBManager.ExecuteInContext((db) =>
+			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var dbReports = getReportsCollection(db);
 				dbReports.Save(this);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
 	public class ModalDialogButtonModel
 	{

@@ -5,7 +5,7 @@ using System.Text;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace eventfulBackend.eventfulQuerying
+namespace EventfulBackend.EventfulQuerying
 {
 	public class BasicQueryResult
 	{

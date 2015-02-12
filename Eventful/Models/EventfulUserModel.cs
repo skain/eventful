@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
-using eventfulBackend;
+using EventfulBackend;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
-	public class eventfulUserModel
+	public class EventfulUserModel
 	{
 
 		public string Id { get; set; }
@@ -19,60 +19,59 @@ namespace eventful.Models
 		{
 			get
 			{
-				//return HttpContext.Current.Profile["WyzantEmployeeEmail"].ToString();
 				return HttpContext.Current.User.Identity.Name;
 			}
 		}
 
-		public static eventfulUserModel FromeventfulUser(eventfulUser u)
+		public static EventfulUserModel FromEventfulUser(EventfulUser u)
 		{
-			return Mapper.Map<eventfulUserModel>(u);	
+			return Mapper.Map<EventfulUserModel>(u);	
 		}
 
-		public eventfulUser AseventfulUser()
+		public EventfulUser AsEventfulUser()
 		{
-			return Mapper.Map<eventfulUser>(this);
+			return Mapper.Map<EventfulUser>(this);
 		}
 
-		public static eventfulUserModel GetCurrentUser()
+		public static EventfulUserModel GetCurrentUser()
 		{
-			var eu = eventfulUser.GetByUsername(HttpContext.Current.User.Identity.Name);
+			var eu = EventfulUser.GetByUsername(HttpContext.Current.User.Identity.Name);
 			if (eu == null)
 			{
 				return null;
 			}
 
-			return FromeventfulUser(eu);
+			return FromEventfulUser(eu);
 		}
 
-		public static eventfulUserModel CreateCurrentUser()
+		public static EventfulUserModel CreateCurrentUser()
 		{
-			var eu = new eventfulUser
+			var eu = new EventfulUser
 			{
 				Username = HttpContext.Current.User.Identity.Name
 			};
 			eu.Emails.Add(CurrentUserEmail);
 			eu.Insert();
-			return FromeventfulUser(eu);
+			return FromEventfulUser(eu);
 		}
 
-		internal static IEnumerable<eventfulUserModel> Search(string searchStr)
+		internal static IEnumerable<EventfulUserModel> Search(string searchStr)
 		{
-			IEnumerable<eventfulUser> users = eventfulUser.Search(searchStr);
+			IEnumerable<EventfulUser> users = EventfulUser.Search(searchStr);
 			if (users == null)
 			{
 				return null;
 			}
 
-			return Mapper.Map<IEnumerable<eventfulUserModel>>(users);
+			return Mapper.Map<IEnumerable<EventfulUserModel>>(users);
 		}
 
-		internal static eventfulUserModel GetOrCreateCurrentUser()
+		internal static EventfulUserModel GetOrCreateCurrentUser()
 		{
-			var user = eventfulUserModel.GetCurrentUser();
+			var user = EventfulUserModel.GetCurrentUser();
 			if (user == null)
 			{
-				user = eventfulUserModel.CreateCurrentUser();
+				user = EventfulUserModel.CreateCurrentUser();
 			}
 			return user;
 		}
@@ -92,7 +91,7 @@ namespace eventful.Models
 
 		internal void Update()
 		{
-			this.AseventfulUser().Update();
+			this.AsEventfulUser().Update();
 		}
 	}
 }

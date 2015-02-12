@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MongoDB.Driver;
 
-namespace eventful.Shared.MongoDB
+namespace Eventful.Shared.MongoDB
 {
 	public class MongoDBConnectionManager
 	{

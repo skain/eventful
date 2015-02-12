@@ -7,7 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace eventful.Models
+namespace Eventful.Models
 {
 	public static class eventfulUtils
 	{

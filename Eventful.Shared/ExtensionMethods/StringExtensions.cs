@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using eventful.Shared.Strings;
+using Eventful.Shared.Strings;
 
-namespace eventful.Shared.ExtensionMethods
+namespace Eventful.Shared.ExtensionMethods
 {
 	public static class StringExtensions
 	{

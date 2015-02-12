@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eventful.Shared.Strings
+namespace Eventful.Shared.Strings
 {
 	public static class StringUtils
 	{
