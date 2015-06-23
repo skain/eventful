@@ -27,6 +27,7 @@ namespace Eventful.Models
 		public int MaxResultsBeforeOutliers { get; set; }
 		public string Title { get; set; }
 		public string GroupName { get; set; }
+		public string ShareUrl { get; set; }
 
 		public EventfulAggregateModel()
 		{
@@ -36,6 +37,7 @@ namespace Eventful.Models
 			GroupByFieldName = "ExceptionType";
 			AggregateOperator = "Count";
 			AggregateFieldName = "_id";
+			ShareUrl = buildShortenedUrl();
 		}
 
 		public void ExecuteAggregate()
@@ -47,7 +49,21 @@ namespace Eventful.Models
 			StartTime = result.StartTime;
 			EndTime = result.EndTime;
 			QueryResults = result.QueryResults;
-			EqlQuery = result.EQLQuery;
+			EqlQuery = result.EQLQuery;ShareUrl = buildShortenedUrl();
+		}
+
+		private string buildShortenedUrl()
+		{
+			var urlParams = new Dictionary<string, string>() {
+				{ "RequestedStartTime", RequestedStartTime },
+				{ "RequestedEndTime", RequestedEndTime },
+				{ "EqlQuery", EqlQuery },
+				{ "GroupByFieldName", GroupByFieldName },
+				{ "AggregateOperator", AggregateOperator },
+				{ "AggregateFieldName", AggregateFieldName },
+				{ "MaxResultsBeforeOutliers", MaxResultsBeforeOutliers.ToString() }
+			};
+			return EventfulUtils.BuildShortenedUrl(urlParams);
 		}
 	}
 }

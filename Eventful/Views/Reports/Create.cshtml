@@ -1,11 +1,11 @@
-﻿@model Eventful.Models.eventfulReportModel
+﻿@model Eventful.Models.EventfulReportModel
 @{
 	ViewBag.Title = "Create Report";	
 }
 <script src="/Scripts/Partials/AggregateResultsTemplate.js" type="text/javascript"></script>
 
 <h2>Create</h2>
-@Html.Partial("CreateEditForm", new Eventful.Models.eventfulReportModel())
+@Html.Partial("CreateEditForm", new Eventful.Models.EventfulReportModel())
 
 <script type="text/javascript" src="/Scripts/reportsAddEditKnockout.js"></script>
 <script>

@@ -16,14 +16,14 @@
 				<input type="text" class="form-control" id="FilterTB" placeholder="Filter by Name..." />
 			</p>
 		</div>
-		@if (Model.eventfulReports.Count() > 0)
+		@if (Model.EventfulReports.Count() > 0)
 		{
 			<table class="table table-striped reportsTable">
 				<tr>
 					<th class="col-md-3">&nbsp;</th>
 					<th>Report Title</th>
 				</tr>
-				@foreach (var report in Model.eventfulReports.OrderBy(er => er.Title))
+				@foreach (var report in Model.EventfulReports.OrderBy(er => er.Title))
 				{
 					<tr>
 						<td>

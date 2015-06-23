@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using Eventful.Code;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
 namespace Eventful.Models
 {
-	public static class eventfulUtils
+	public static class EventfulUtils
 	{
 		private static readonly Regex searchStringParserRE = new Regex(@"(?<criteria>(?<conjunction>\|\||&&)*\s*(?<term>\w+)\s*(?<operator>==|>=|<=|!=|<|>|in|matches)\s*(?<value>('.*?'|\S*)))", RegexOptions.IgnoreCase);
 		private static readonly Regex requestedTimeParserRE = new Regex(@"now\s*(?<operator>-|\+)\s*(?<number>\d*)\s*(?<units>second|minute|hour|day|week|month)s*", RegexOptions.IgnoreCase);
@@ -182,6 +183,23 @@ namespace Eventful.Models
 			}
 
 			return retVal;
+		}
+
+		public static string BuildShortenedUrl(Dictionary<string, string> urlParams)
+		{
+			Uri urlParts = HttpContext.Current.Request.Url;
+			string baseUrl = string.Concat(urlParts.Scheme, "://", urlParts.Host, urlParts.AbsolutePath);
+			var paramArray = new List<string>();
+
+			foreach (KeyValuePair<string, string> param in urlParams)
+			{
+				paramArray.Add(string.Format("{0}={1}&", param.Key, Uri.EscapeDataString(param.Value)));
+			}
+
+			string urlSafeQueryString = string.Join("&", paramArray.ToArray());
+			string finalUrl = string.Format("{0}?{1}", baseUrl, urlSafeQueryString);
+
+			return GoogleUrlShortnerApi.Shorten(finalUrl);
 		}
 	}
 }

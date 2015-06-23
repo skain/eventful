@@ -24,7 +24,7 @@
 
 		$('.graphDiv', resultDiv).highcharts({
 			xAxis: { categories: categories },
-			series: [{ name: '{e}vents', color: '#b7d6b7', data: data }],
+			series: [{ name: '{e}vents', color: '#4A89DC', data: data }],
 			chart: {
 				type: 'bar',
 				style: { fontFamily: "'Open Sans', sans-serif" }

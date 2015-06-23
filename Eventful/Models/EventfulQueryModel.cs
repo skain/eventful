@@ -31,16 +31,18 @@ namespace Eventful.Models
 		public int CurrentPage { get; set; }
 		public int RequestedPage { get; set; }
 		public long TotalResultCount { get; set; }
+		public string ShareUrl { get; set; }
 
 		public EventfulQueryModel()
 		{
 			RequestedEndTime = "Now";
 			RequestedStartTime = "Now - 2 days";
-			EqlQuery = "LogLevel == Error && eventfulGroup in (Web_Admin_Backend,Web_Main_Backend,Web_DataSite_Backend,Offline,Core.Service,Web_Divot_Backend)";
+			EqlQuery = "LogLevel == Error && EventfulGroup in (Web_Admin_Backend,Web_Main_Backend,Web_DataSite_Backend,Offline,Core.Service,Web_Divot_Backend)";
 			QueryResults = null;
 			PageSize = 20;
 			RequestedPage = 1;
 			TotalResultCount = 0;
+			ShareUrl = buildShortenedUrl();
 		}
 
 		public void ExecuteQuery()
@@ -54,7 +56,18 @@ namespace Eventful.Models
 			this.CurrentPage = result.CurrentPage;
 			this.PageSize = result.PageSize;
 			this.TotalResultCount = result.TotalResultCount;
-			this.EqlQuery = result.EQLQuery;
+			this.EqlQuery = result.EQLQuery; ShareUrl = buildShortenedUrl();
+		}
+
+		private string buildShortenedUrl()
+		{
+			var urlParams = new Dictionary<string, string>() {
+				{ "RequestedStartTime", RequestedStartTime },
+				{ "RequestedEndTime", RequestedEndTime },
+				{ "EqlQuery", EqlQuery },
+				{ "RequestedPage", RequestedPage.ToString() }
+			};
+			return EventfulUtils.BuildShortenedUrl(urlParams);
 		}
 	}
 }

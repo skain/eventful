@@ -1,5 +1,5 @@
-﻿@model Eventful.Models.eventfulReportModel
-@using eventful.Code;
+﻿@model Eventful.Models.EventfulReportModel
+@using Eventful.Code;
 
 @using MvcShared;
 @{
@@ -7,7 +7,7 @@
 }
 <script src="/Scripts/eventful.dataModels.js"></script>
 <h2>Edit</h2>
-@Html.Partial("CreateEditForm", new Eventful.Models.eventfulReportModel())
+@Html.Partial("CreateEditForm", new Eventful.Models.EventfulReportModel())
 
 <script>
 	var jsonEditData = null;

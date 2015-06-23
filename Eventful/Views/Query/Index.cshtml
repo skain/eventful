@@ -2,53 +2,10 @@
 @{
 	ViewBag.Title = "Query";
 }
-<style type="text/css">
-	div.resultDiv {
-		overflow: auto;
-		margin-top: 10px;
-	}
-
-	div.detailRow pre {
-		border: none;
-		padding: 0;
-		background-color: transparent;
-	}
-
-	div.summaryRow {
-		background-color: white;
-		border: solid 2px #C5C0E8;
-		overflow: hidden;
-	}
-
-		div.summaryRow > div {
-			-webkit-mask-image: -webkit-gradient(linear, 80% top, right top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
-		}
-
-		div.summaryRow span {
-			margin: 0 10px;
-			padding: 4px;
-			overflow: hidden;
-			max-height: 25px;
-			word-wrap: break-word;
-			word-break: break-all;
-			display: inline-block;
-			font-weight: bold;
-			max-width: 100%;
-		}
-
-		div.summaryRow:hover {
-			border-style: dotted;
-			cursor: pointer;
-		}
-
-	#CollapseButtonContainer {
-		float: right;
-	}
-</style>
 <div class="row">
 	<div class="col-md-12">
 		<h2 style="display: inline-block;">Query</h2>
-		<a href="/eventful/Query">[Reset]</a>
+		<a href="/Eventful/Query">[Reset]</a>
 	</div>
 </div>
 <div class="row">
@@ -117,7 +74,6 @@
 	<a href="javascript:void(0);" data-toggle="modal" data-target="#SubmittedQueryModal">
 		Geek Out!
 	</a>
-
 	<!-- Modal -->
 	<div class="modal fade" id="SubmittedQueryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -192,7 +148,7 @@
 						<span data-bind="text:$data.getFieldValByName('MachineName'), attr: { title: $data.getFieldValByName('MachineName') }"></span>
 					</div>
 					<div class="col-sm-3">
-						<span data-bind="text:$data.getFieldValByName('eventfulGroup'), attr: { title: $data.getFieldValByName('eventfulGroup') }"></span>
+						<span data-bind="text:$data.getFieldValByName('EventfulGroup'), attr: { title: $data.getFieldValByName('EventfulGroup') }"></span>
 					</div>
 					<div class="col-sm-2">
 						<span data-bind="text:$data.getFieldValByName('LogLevel'), attr: { title: $data.getFieldValByName('LogLevel') }"></span>
@@ -236,16 +192,24 @@
 				var self = this;
 				self.result = rawResult;
 				self.fieldsAsKeyValuePairs = self.result;
+				cleanUpKeyValuePairs();
 				self.fieldsAsObject = convertKeyValuePairsToObject();
 				self.getFieldValByName = function (name) {
 					return self.fieldsAsObject[name] || 'N/A';
 				};
 
+				function cleanUpKeyValuePairs() {
+					for (var i = 0; i < self.fieldsAsKeyValuePairs.length; i++) {
+						var curPair = self.fieldsAsKeyValuePairs[i];
+					}
+				}
+
 				function convertKeyValuePairsToObject() {
 					var obj = {};
 					for (var i = 0; i < self.fieldsAsKeyValuePairs.length; i++) {
 						var curPair = self.fieldsAsKeyValuePairs[i];
-						obj[curPair.Key] = curPair.Value;
+						var value = curPair.Value;
+						obj[curPair.Key] = value;
 					}
 
 					return obj;
@@ -302,28 +266,6 @@
 				}
 			}
 		}
-		function buildReportLink() {
-			var link = getReportHref();
-			link = '<a href="' + link + '">Link to this query</a>';
-			$('#LinkDiv').html(link);
-		}
-
-		function getReportHref() {
-			var joined = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
-			var link = 'query?' + joined;
-			return link;
-		}
-
-		function setPageLocation() {
-			var href = getReportHref();
-			window.history.pushState({ location: href }, document.title, href);
-		}
-
-		function buildAggregateLink() {
-			var qs = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
-			var link = 'aggregate?' + qs;
-			$('#AggregateLink').attr('href', link);
-		}
 
 		function collapseAllToSummaryRows() {
 			$('div.detailRow').hide();
@@ -335,6 +277,15 @@
 			$('#CollapseButtonContainer a').text('Collapse all items');
 		}
 
+		function linkCodeRefsToGitHub() {
+			var $pres = $('div.detailRow tr:contains("ExceptionStackTrace") pre');
+			$pres.each(function () {
+				var $pre = $(this);
+				var value = $pre.text().replace(/</g, '&lt;');
+				var linked = value.replace(/(.*in .*?\\((Backend|WyzAntCommon|WyzAntWeb|WyzAntBackend)\\.*):line (\d*))/g, "<a href='https://repos.wyzdev.com/wyzant-web/main/blob/master/$2#L$4' target='_blank'>$1</a>").replace(/\\/g, '/');
+				$pre.html(linked);
+			});
+		}
 
 		function renderResults(response, statusText, xhr, $form) {
 			//store the response in the dataModels namespace for later use
@@ -348,13 +299,15 @@
 			$('#KnockoutResults').show();
 			ko.applyBindings(eventful.dataModels.queryResults, document.getElementById('KnockoutResults'));
 			ko.applyBindings(eventful.dataModels.queryResults, document.getElementById('KnockoutSubmitted'));
-			buildReportLink();
-			setPageLocation();
-			buildAggregateLink();
+
+			eventful.utils.updateShortenedQueryUrl($('#LinkDiv'), response.ShareUrl);
+			eventful.utils.updateLink($('#AggregateLink'), eventful.utils.getAggregateLink());
+			eventful.utils.setPageLocation(eventful.utils.getQueryLink());
+
 			collapseAllToSummaryRows();
 			$('#EqlQuery').val(response.EqlQuery);
 			$('#RequestedPage').val('1');
-			//renderGraph(response);
+			linkCodeRefsToGitHub();
 		};
 
 		initializeModels();
@@ -412,7 +365,6 @@
 				}
 			});
 
-			//eventful.modal.show('Markdown', '<textarea class="markdownTA" cols=60 rows=20>' + markdown + '</textarea>');
 			eventful.modal.showAlertModal('Markdown', '<textarea class="markdownTA" cols=60 rows=20>' + markdown + '</textarea>');
 		});
 

@@ -1,72 +1,61 @@
-﻿/*
-			OffWhite: #FEFFF2
-			Purple: #C5C0E8
-			LightGreen: #DFE7DF
-			Gray: #ABACAB
-			DarkGreen: #CCE2CC
-			DarkerGreen: #b7d6b7
-		*/
-body {
+﻿body {
 	padding-top: 40px;
 	padding-bottom: 40px;
-	/*background-color: #FEFFF2;*/
 }
 
-@@media (max-width: 768px) {
+@media (max-width: 768px) {
 	div.pre {
 		max-width: 90%;
 		overflow: auto;
+	}
+	/* Use a more mobile-friendly layout for the detail rows on narrow screens */
+	.detailRow table td {
+		display: block;
+	}
+	.detailRow table td:first-child {
+		font-weight: bold;
 	}
 }
 
 .loading {
 	position: relative;
 }
-
-	.loading:before {
-		display: block;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		opacity: 0.5;
-		z-index: 5;
-		top: 0;
-		left: 0;
-		background: Black url(//Content/Graphics/LoadingOrangeCircle.gif) no-repeat center center;
-		content: ' ';
-	}
-
+.loading:before {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	background: Black url(//admin.wyzant.com/graphics/LoadingOrangeCircle.gif) no-repeat center center;
+	content: ' ';
+}
 div.eventfulPopup {
 	text-align: center;
 }
-
 table.eventfulLinks {
 	border: none;
 	margin-bottom: 0;
 }
-
-	table.eventfulLinks a {
-		font-size: 12px;
-		color: #ABACAB;
-	}
-
-.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
-	background-color: #DFE7DF;
+table.eventfulLinks a {
+	font-size: 12px;
+	color: #ABACAB;
 }
-
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+	background-color: #E6E9ED;
+}
 div.pre {
 	white-space: pre-wrap;
 }
-
 #PageAlert {
 	display: none;
 }
-
 #PageAlertBody {
 	margin-bottom: 10px;
 }
-
-
 .eButton-top > .input-group-btn {
 	vertical-align: top;
 }
@@ -74,4 +63,55 @@ div.pre {
 /* Fix for opening/closing rows on mobile */
 .summaryRow {
 	cursor: pointer;
+}
+div.resultDiv {
+	overflow: auto;
+	margin-top: 10px;
+}
+div.detailRow pre {
+	border: none;
+	padding: 0;
+	background-color: transparent;
+}
+div.detailRow fakePre {
+	border: none;
+	padding: 0;
+	background-color: transparent;
+	display: block;
+	padding: 9.5px;
+	margin: 0 0 10px;
+	font-size: 13px;
+	line-height: 1.428571429;
+	color: #333;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+div.summaryRow {
+	background-color: white;
+	border: solid 2px #CCD1D9;
+	overflow: hidden;
+}
+div.summaryRow > div {
+	-webkit-mask-image: -webkit-gradient(linear, 80% top, right top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+}
+div.summaryRow span {
+	margin: 0 10px;
+	padding: 4px;
+	overflow: hidden;
+	max-height: 25px;
+	word-wrap: break-word;
+	word-break: break-all;
+	display: inline-block;
+	font-weight: bold;
+	max-width: 100%;
+}
+div.summaryRow:hover {
+	border-style: dotted;
+	cursor: pointer;
+}
+#CollapseButtonContainer {
+	float: right;
 }
