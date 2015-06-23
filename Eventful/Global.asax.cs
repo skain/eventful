@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using NLog;
 using EventfulLogger.LoggingUtils;
+using System.Web.Security;
 
 namespace Eventful
 {
@@ -37,5 +38,6 @@ namespace Eventful
 				logger.EventfulError("Fatal error encountered trying to log application error.  Logging error:\r\n{0}\r\n\r\nOriginal error:\r\n{1}\r\n", logExc, ex);
 			}
 		}
+
     }
 }

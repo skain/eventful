@@ -14,3 +14,4 @@ packages/*
 App_Data/*
 *.ldf
 *.mdf
+Eventful/mongoDB.config

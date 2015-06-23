@@ -7,7 +7,7 @@ using Eventful.Models;
 
 namespace Eventful.Controllers
 {
-	[Authorize]
+	//[Authorize]
 	public class QueryController : Controller
     {
         //
