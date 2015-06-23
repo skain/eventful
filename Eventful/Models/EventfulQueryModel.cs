@@ -37,7 +37,7 @@ namespace Eventful.Models
 		{
 			RequestedEndTime = "Now";
 			RequestedStartTime = "Now - 2 days";
-			EqlQuery = "LogLevel == Error && EventfulGroup in (Web_Admin_Backend,Web_Main_Backend,Web_DataSite_Backend,Offline,Core.Service,Web_Divot_Backend)";
+			EqlQuery = "";
 			QueryResults = null;
 			PageSize = 20;
 			RequestedPage = 1;

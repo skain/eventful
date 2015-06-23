@@ -33,7 +33,7 @@ namespace Eventful.Models
 		{
 			RequestedStartTime = "now - 15 minutes";
 			RequestedEndTime = "now";
-			EqlQuery = "LogLevel == Error && eventfulGroup in (Web_Admin_Backend,Web_Main_Backend,Web_DataSite_Backend,Offline,Core.Service,Web_Divot_Backend)";
+			EqlQuery = "";
 			GroupByFieldName = "ExceptionType";
 			AggregateOperator = "Count";
 			AggregateFieldName = "_id";
