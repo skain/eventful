@@ -216,8 +216,18 @@
 		}
 	}
 
+	function loadDefaultFormValues() {
+		$('#RequestedStartTime').val('Now - 15 minutes');
+		$('#RequestedEndTime').val('Now');
+		$('#GroupByFieldName').val('Test');
+		$('#AggregateOperator').val('Count');
+		$('#AggregateFieldName').val('_id');
+		$('#MaxResultsBeforeOutliers').val('5');
+	}
+
 	$(document).ready(function () {
 		$('#KnockoutResults').hide();
+		loadDefaultFormValues();
 		eventful.utils.loadQuerystringValues('#CriteriaForm');
 		eventful.utils.updateShortenedQueryUrl($(), "#where-does-this-come-from");
 		$('#CriteriaForm').ajaxForm({

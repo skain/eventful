@@ -20,7 +20,7 @@ namespace Eventful.Controllers
 
         public ActionResult Index()
         {
-			return View(new EventfulAggregateModel { MaxResultsBeforeOutliers = 5 });
+			return View();
         }
 
 		[HttpPost]

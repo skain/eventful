@@ -15,7 +15,7 @@ namespace Eventful.Controllers
 
         public ActionResult Index()
         {
-            return View(new EventfulQueryModel());
+            return View();
         }
 
 		[HttpPost]

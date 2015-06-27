@@ -38,14 +38,14 @@
 	self.getQueryLink = function (formSelector) {
 		var formSelector = formSelector || '#CriteriaForm',
 			qs = self.buildQueryStringFromForm(formSelector, self.defaultInputIdsToIgnore);
-			url = 'query?' + qs;
+			url = '?' + qs;
 
 		return url;
 	}
 	self.getAggregateLink = function (formSelector) {
 		var formSelector = formSelector || '#CriteriaForm',
 			qs = self.buildQueryStringFromForm(formSelector, self.defaultInputIdsToIgnore);
-			url = 'aggregate?' + qs;
+			url = '?' + qs;
 
 		return url;
 	}

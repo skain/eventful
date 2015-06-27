@@ -310,13 +310,22 @@
 			linkCodeRefsToGitHub();
 		};
 
+		function setDefaultFormValues() {
+			var $criteriaForm = $('#CriteriaForm');
+			if (!$('#RequestedStartTime').val()) {
+				$('#RequestedStartTime').val('Now - 15 minutes');
+			}
+
+			if (!$('#RequestedEndTime').val()) {
+				$('#RequestedEndTime').val('Now');
+			}
+		}
 		initializeModels();
+		var $criteriaForm = $('#CriteriaForm');
 		$('#KnockoutResults').hide();
-		$('#CriteriaForm').ajaxForm({
+		$criteriaForm.ajaxForm({
 			success: renderResults,
 			error: function (request, status, error) {
-				console.log('Error: ' + error);
-				console.log('Request: ' + request.ResponseText);
 				$('body').removeClass('loading');
 				eventful.errorAlert.showAlert(request.ResponseText || error || "Error message unavailable");
 				$('#KnockoutSubmitted').empty();
@@ -324,7 +333,9 @@
 			},
 			beforeSubmit: function () { $('body').addClass('loading'); }
 		});
+		setDefaultFormValues();
 		eventful.utils.loadQuerystringValues('#CriteriaForm');
+
 		$('#CriteriaForm input[type=submit]').click();
 		$('body').on('click', 'ul.pagination a', function () {
 			var $clicked = $(this);
