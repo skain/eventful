@@ -6,7 +6,7 @@
 
 <html lang="en">
 <head>
-	<title>@ViewBag.Title | eventful</title>
+	<title>@ViewBag.Title | Eventful</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<!-- Latest compiled and minified CSS -->
@@ -21,10 +21,10 @@
 	<script src="/Scripts/highcharts/highcharts.js"></script>
 	<script src="/Scripts/highcharts/modules/data.js"></script>
 	<script src="/Scripts/highcharts/modules/exporting.js"></script>
-	<script src="/Scripts/eventful.js"></script>
+	<script src="/Scripts/eventful.js?v=1"></script>
 
-	<link rel="stylesheet" href="/Content/Bootstrap/css/customOverrides.css" />
-	<link rel="stylesheet" href="/Content/Styles/eventful.css" />
+	<link rel="stylesheet" href="/Content/Bootstrap/css/customOverrides.css?v=1" />
+	<link rel="stylesheet" href="/Content/Styles/eventful.css?v=2" />
 </head>
 <body>
 	<!-- Shared Modal Definition-->
@@ -57,7 +57,7 @@
 					<li><a href="/query">Query</a></li>
 					<li><a href="/aggregate">Aggregate</a></li>
 					<li><a href="/reports">Reports</a></li>
-					<li><a href="/Klaxon">Klaxon</a></li>
+					<li><a href="/klaxon">Klaxon</a></li>
 					<li><a href="/help">Help</a></li>
 					<li><a href="/users/account">Account</a></li>
 				</ul>
@@ -79,7 +79,7 @@
 		@RenderBody()
 		@Html.Partial("BSModalTemplate")
 	</div>
-	@RenderSection("Scripts", required: false);
+	@RenderSection("Scripts", required: false)
 	<script type="text/javascript">
 		$(document).ready(function () {
 			var loc = document.location.href.toLowerCase();

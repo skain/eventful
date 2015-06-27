@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventfulBackend.Properties {
+namespace Eventful.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,19 +25,10 @@ namespace EventfulBackend.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{Your MongoDB Connection String}")]
-        public string MongoDBConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("AIzaSyBal-f6xCcdJM9lNhkdj4r05kWPUj4Zh1E")]
+        public string GoogleUrlShortenerApiKey {
             get {
-                return ((string)(this["MongoDBConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("eventful")]
-        public string MongoDBDatabaseName {
-            get {
-                return ((string)(this["MongoDBDatabaseName"]));
+                return ((string)(this["GoogleUrlShortenerApiKey"]));
             }
         }
     }

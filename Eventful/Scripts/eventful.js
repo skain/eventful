@@ -7,6 +7,8 @@
 (function (eventful) {
 	eventful.utils = eventful.utils || {};
 	var self = eventful.utils;
+	self.defaultInputIdsToIgnore = ['QueryTB', 'MatchTB', 'GroupTB', 'ProjectTB'];
+
 	self.setSelectionRange = function(input, selectionStart, selectionEnd) {
 		if (input.setSelectionRange) {
 			input.focus();
@@ -27,21 +29,48 @@
 	self.endsWith = function (str, suffix) {
 		return str.indexOf(suffix, str.length - suffix.length) !== -1;
 	};
+	self.updateShortenedQueryUrl = function ($el, url) {
+		$el.html('<a href="' + url + '">Link to this query</a>');
+	}
+	self.updateLink = function ($el, url) {
+		$el.attr('href', url);
+	}
+	self.getQueryLink = function (formSelector) {
+		var formSelector = formSelector || '#CriteriaForm',
+			qs = self.buildQueryStringFromForm(formSelector, self.defaultInputIdsToIgnore);
+			url = 'query?' + qs;
+
+		return url;
+	}
+	self.getAggregateLink = function (formSelector) {
+		var formSelector = formSelector || '#CriteriaForm',
+			qs = self.buildQueryStringFromForm(formSelector, self.defaultInputIdsToIgnore);
+			url = 'aggregate?' + qs;
+
+		return url;
+	}
+	self.setPageLocation = function (url) {
+		window.history.pushState({ location: url }, document.title, url);
+	}
 	self.getQSFormFields = function (formSelector) {
 		return $(formSelector + ' input,' + formSelector + ' textarea');
 	}
 	self.getQSNameFromFormField = function ($formField) {
 		return $formField.attr('data-qsname') || $formField.attr('name') || $formField.attr('id');
 	}
-	self.buildQueryStringFromForm = function (formSelector) {
+	self.buildQueryStringFromForm = function (formSelector, inputIdsToIgnore) {
 		var qs = [];
 		var $qsFields = self.getQSFormFields(formSelector)
 		$qsFields.each(function () {
 			var $this = $(this);
-			var qsName = self.getQSNameFromFormField($this);
-			if (qsName) {
-				var val = $this.val();
-				qs.push(qsName + '=' + encodeURIComponent(val));
+
+			// skip any inputs we don't want in the URL or POST params
+			if ($.inArray($this.attr("id"), inputIdsToIgnore) < 0) {
+				var qsName = self.getQSNameFromFormField($this);
+				if (qsName) {
+					var val = $this.val();
+					qs.push(qsName + '=' + encodeURIComponent(val));
+				}
 			}
 		});
 

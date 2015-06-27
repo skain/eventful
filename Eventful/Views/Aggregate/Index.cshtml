@@ -1,4 +1,4 @@
-﻿@model Eventful.Models.eventfulAggregateModel
+﻿@model Eventful.Models.EventfulAggregateModel
 @{
 	ViewBag.Title = "Aggregate";
 }
@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h2 style="display: inline-block;">Aggregate</h2>
-		<a href="/eventful/Aggregate">[Reset]</a>
+		<a href="/Eventful/Aggregate">[Reset]</a>
 	</div>
 </div>
 <div class="row">
@@ -154,7 +154,7 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 </script>
-<script id="eventfulItemPopupTemplate" type="text/html">
+<script id="EventfulItemPopupTemplate" type="text/html">
 	<table class="eventfulLinks table">
 		<tr>
 			<td><a href="javascript:void(0);" class="addToCriteriaBTN">Add to Criteria</a></td>
@@ -173,35 +173,6 @@
 	</div>
 </script>
 <script type="text/javascript">
-	function buildReportLink() {
-		var link = getReportHref();
-		link = '<a href="' + link + '">Link to this query</a>';
-		$('#LinkDiv').html(link);
-	}
-
-	function getReportHref() {
-		var joined = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
-		var link = 'aggregate?' + joined;
-		return link;
-	}
-
-	function setPageLocation() {
-		var href = getReportHref();
-		window.history.pushState({ location: href }, document.title, href);
-	}
-
-	function buildQueryLink() {
-		var qs = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
-		var link = 'query?' + qs;
-		$('#QueryLink').attr('href', link);
-	}
-
-	function redirectToSearchWithCurrentCriteria() {
-		var criteriaQS = eventful.utils.buildQueryStringFromForm('#CriteriaForm');
-		var link = 'query?' + criteriaQS;
-		window.location = link;
-	}
-
 	function renderResults(response, statusText, xhr, $form) {
 		$('body').removeClass('loading');
 		var resultsTemplate = $('#ResultsTemplate').text();
@@ -211,33 +182,13 @@
 		$('#KnockoutResults').show();
 		eventful.partials.aggregateResultsTemplate.renderResults(response, document.getElementById('KnockoutResults'), statusText, xhr);
 		ko.applyBindings(response, document.getElementById('KnockoutSubmitted'));
-		buildReportLink();
-		buildQueryLink();
-		setPageLocation();
+
+		eventful.utils.updateShortenedQueryUrl($('#LinkDiv'), response.ShareUrl);
+		eventful.utils.updateLink($('#QueryLink'), eventful.utils.getQueryLink());
+		eventful.utils.setPageLocation(eventful.utils.getAggregateLink());
+
 		$('#EqlQuery').val(response.EqlQuery);
 	}
-
-	function getEvenfulPopupHtml(templateID) {
-		return $(templateID).text();
-	}
-
-	function addContextualDataToQueryCriteria($buttonClicked) {
-		var facetValue = $buttonClicked.closest('div.popover').closest('tr').children('td:nth-child(2)').text();
-		var newCriteria = $('#GroupBy').val() + ' == \'' + facetValue + '\'';
-		eventful.utils.addToCriteriaInput(newCriteria, $('#QueryCriteria'));
-	}
-
-	function handleAddToCriteriaClick() {
-		addContextualDataToQueryCriteria($(this));
-		eventful.eButton.hideeventfulPopups();
-	}
-
-	function handleSearchClick() {
-		addContextualDataToQueryCriteria($(this));
-		redirectToSearchWithCurrentCriteria();
-	}
-
-
 
 	function autoRefreshManager() {
 		var self = this;
@@ -265,11 +216,10 @@
 		}
 	}
 
-
 	$(document).ready(function () {
 		$('#KnockoutResults').hide();
 		eventful.utils.loadQuerystringValues('#CriteriaForm');
-		buildReportLink();
+		eventful.utils.updateShortenedQueryUrl($(), "#where-does-this-come-from");
 		$('#CriteriaForm').ajaxForm({
 			success: renderResults,
 			beforeSubmit: function () { $('body').addClass('loading'); }

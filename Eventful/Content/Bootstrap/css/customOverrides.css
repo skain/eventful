@@ -1,65 +1,69 @@
-﻿.navbar-default {
-	background-color: #CCE2CC;
-	border-color: #B7D6B7;
+﻿a,
+a:hover,
+a:visited {
+	color: #4A89DC;
 }
-
-
+.navbar-default {
+	background-color: #379187;
+	border-color: #379187;
+}
 .navbar-brand {
 	float: left;
 	font-size: 18px;
 	line-height: 20px;
 	padding: 15px;
 }
-
 .navbar-default .navbar-brand {
-	color: #777777;
+	color: #fff;
 }
-
 .navbar-brand {
 	float: left;
 	font-size: 18px;
 	line-height: 20px;
 	padding: 15px;
 }
-
-.navbar-default .navbar-nav > li > a {
-	color: #777777;
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > li > a:focus {
+	color: #fff;
 }
-
-.navbar-default .navbar-nav > .active > a , 
-.navbar-default .navbar-nav > .active > a:hover {
-	background-color: #b7d6b7;
+.navbar-default .navbar-nav > .active > a ,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+	color: #fff;
+	background-color: #3A6C67;
 }
-
-
-.btn-primary {
-	background-color: #CCE2CC !important;
-	border-color: #B7D6B7;
-
-}
-
-.btn-primary:hover {
-	background-color: #B7D6B7 !important;
-	border-color: #B7D6B7 !important;
-}
-
 .btn {
 	color: #777;
 }
 .btn:hover {
 	background-color: lightgray;
 }
+.btn-primary {
+	color: #fff;
+	background-color: #E99659 !important;
+	border-color: #E99659;
+}
+.btn-primary:hover {
+	color: #fff;
+	background-color: #AF805E !important;
+	border-color: #AF805E !important;
+}
 .btn-link {
 	color: #0088cc;
 	font-weight: normal;
 }
-
 div.popover {
 	z-index: 9999;
 }
-
-.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus
-{
-	background-color: #CCE2CC;
-	border-color: #CCE2CC;
+.pagination>.active>a,
+.pagination>.active>span,
+.pagination>.active>a:hover,
+.pagination>.active>span:hover,
+.pagination>.active>a:focus,
+.pagination>.active>span:focus {
+	background-color: #5D9CEC;
+	border-color: #5D9CEC;
 }

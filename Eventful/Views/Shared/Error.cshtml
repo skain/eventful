@@ -1,6 +1,6 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 @using NLog;
-@using EventfulLogger.LoggingUtils;
+@using WyzAntUtils.Logging;
 
 @{
     ViewBag.Title = "Error";
@@ -8,7 +8,7 @@
 
 @{
 	Logger logger = LogManager.GetCurrentClassLogger();
-	logger.EventfulError(Server.GetLastError(), "Unhandled Exception Occurred");
+	logger.WyzAntError(Server.GetLastError(), "Unhandled Exception Occurred");
 }
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>

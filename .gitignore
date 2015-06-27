@@ -14,5 +14,5 @@ packages/*
 App_Data/*
 *.ldf
 *.mdf
-Eventful/eventful.config
 Eventful/mongoDB.config
+Eventful/eventful.config

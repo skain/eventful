@@ -11,7 +11,7 @@ using EventfulLogger.LoggingUtils;
 
 namespace Eventful.Controllers
 {
-	[Authorize]
+	//[Authorize]
     public class AggregateController : Controller
     {
 		private static Logger logger = LogManager.GetCurrentClassLogger();
