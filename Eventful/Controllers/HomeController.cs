@@ -8,7 +8,7 @@ using EventfulLogger.LoggingUtils;
 
 namespace Eventful.Controllers
 {
-	[Authorize]
+	//[Authorize]
 	public class HomeController : Controller
     {
 		private static Logger logger = LogManager.GetCurrentClassLogger();

@@ -16,3 +16,5 @@ App_Data/*
 *.mdf
 Eventful/mongoDB.config
 Eventful/eventful.config
+Eventful/AmazonSecrets.csv
+Eventful/NLog.config
