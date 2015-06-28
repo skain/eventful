@@ -21,9 +21,9 @@ namespace EventfulBackend.Klaxon
 		public int ComparisonThreshold { get; set; }
 		public List<string> SubscriberEmails { get; private set; }
 		public string CheckEvery { get; set; }
-		[BsonDateTimeOptions(Kind = DateTimeKind.Local)] 
+		[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
 		public DateTime LastCheckedAt { get; set; }
-		[BsonDateTimeOptions(Kind = DateTimeKind.Local)] 
+		[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
 		public DateTime NextCheckAt { get; set; }
 		public long? NumMatched { get; private set; }
 		public string FieldToAggregate { get; set; }
@@ -170,8 +170,6 @@ namespace EventfulBackend.Klaxon
 			EventfulDBManager.ExecuteInContext((db) =>
 			{
 				var Klaxons = getCollection(db);
-				var k1 = Klaxons.AsQueryable().First();
-				bool test = k1.NextCheckAt <= DateTime.Now;
 				var query = from k in Klaxons.AsQueryable()
 							where k.NextCheckAt <= DateTime.Now
 							select k;
@@ -222,23 +220,23 @@ namespace EventfulBackend.Klaxon
 		{
 			EventfulDBManager.ExecuteInContext((db) =>
 			{
-					var Klaxons = getCollection(db);
-					var query = getKlaxonsBySubscriberEmail(oldEmail, Klaxons);
+				var Klaxons = getCollection(db);
+				var query = getKlaxonsBySubscriberEmail(oldEmail, Klaxons);
 
-					foreach (var k in query)
-					{
-						k.SubscriberEmails.Remove(oldEmail);
-						k.SubscriberEmails.Add(newEmail);
-						Klaxons.Save(k);
-					}
-				});
+				foreach (var k in query)
+				{
+					k.SubscriberEmails.Remove(oldEmail);
+					k.SubscriberEmails.Add(newEmail);
+					Klaxons.Save(k);
+				}
+			});
 		}
 
 		private static IQueryable<Klaxon> getKlaxonsBySubscriberEmail(string oldEmail, MongoCollection<Klaxon> Klaxons)
 		{
 			var query = from k in Klaxons.AsQueryable()
-					where k.SubscriberEmails.Contains(oldEmail)
-					select k;
+						where k.SubscriberEmails.Contains(oldEmail)
+						select k;
 			return query;
 		}
 

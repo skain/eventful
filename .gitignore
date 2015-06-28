@@ -23,3 +23,6 @@ Eventful/eventfulLogger.config
 EventfulQueueProcessor/eventfulBackend.config
 EventfulQueueProcessor/eventfulLogger.config
 EventfulQueueProcessor/eventfulQueueProcessor.config
+EventfulKlaxonProcessor/eventfulBackend.config
+EventfulKlaxonProcessor/eventfulKlaxonProcessor.config
+EventfulKlaxonProcessor/eventfulLogger.config

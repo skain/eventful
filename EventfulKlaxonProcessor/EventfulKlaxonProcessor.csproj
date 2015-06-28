@@ -69,6 +69,21 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ConfigExamples\eventfulBackend.config" />
+    <None Include="ConfigExamples\eventfulLogger.config" />
+    <None Include="ConfigExamples\eventfulKlaxonProcessor.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="eventfulBackend.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="eventfulKlaxonProcessor.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="eventfulLogger.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
