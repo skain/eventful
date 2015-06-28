@@ -18,3 +18,8 @@ Eventful/mongoDB.config
 Eventful/eventful.config
 Eventful/AmazonSecrets.csv
 Eventful/NLog.config
+Eventful/eventfulBackend.config
+Eventful/eventfulLogger.config
+EventfulQueueProcessor/eventfulBackend.config
+EventfulQueueProcessor/eventfulLogger.config
+EventfulQueueProcessor/eventfulQueueProcessor.config

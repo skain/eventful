@@ -71,6 +71,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ConfigExamples\eventfulBackend.config" />
+    <None Include="ConfigExamples\eventfulLogger.config" />
+    <None Include="ConfigExamples\eventfulQueueProcessor.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="eventfulBackend.config" />
+    <None Include="eventfulLogger.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -94,6 +101,11 @@
       <Project>{887c9989-7e51-4846-a0a5-832b33e08b1e}</Project>
       <Name>EventfulLogger</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="eventfulQueueProcessor.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
