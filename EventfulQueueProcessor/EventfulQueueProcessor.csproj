@@ -76,8 +76,12 @@
     <None Include="ConfigExamples\eventfulQueueProcessor.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="eventfulBackend.config" />
-    <None Include="eventfulLogger.config" />
+    <None Include="eventfulBackend.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="eventfulLogger.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -105,6 +109,7 @@
   <ItemGroup>
     <None Include="eventfulQueueProcessor.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
