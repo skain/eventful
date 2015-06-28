@@ -265,6 +265,12 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="mongoDB.config" />
     <Content Include="eventful.config" />
+    <Content Include="ConfigExamples\NLog.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ConfigExamples\mongoDB.config" />
+    <Content Include="ConfigExamples\eventful.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -352,9 +358,6 @@
     <Content Include="Views\Shared\FieldPickerPopup.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Home\LogTest.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
