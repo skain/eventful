@@ -68,7 +68,7 @@
 			<!-- ko foreach: $data -->
 				<tr>
 					<td>
-						<a data-bind="attr: { href: '/Klaxon/RunTest/' + Id}">Run</a> | <a data-bind="attr: { href: '/Klaxon/Edit/' + Id }">Edit</a> | <a data-bind="attr: { href: '/Klaxon/Delete/' + Id }" class="deleteButton">Delete</a>
+						<a data-bind="attr: { href: '/Klaxon/RunTest/' + Id}">Run</a> | <a data-bind="attr: { href: '/Klaxon/Edit/' + Id }">Edit</a> | <a href="javascript:void(0);" class="deleteButton" data-bind="attr: { 'data-klaxonid': Id }" >Delete</a>
 					</td>
 					<td class="statusTD">
 						<div data-bind="css: { 'glyphicon-ok': TestResult, 'glyphicon-remove': !TestResult }" class="glyphicon"></div>
@@ -94,51 +94,6 @@
 					</td>
 				</tr>
 			<!-- /ko -->
-
-			@*@foreach (var item in Model.OrderBy(m => m.Name))
-			{
-				<tr>
-					<td>
-						@Html.ActionLink("Run", "RunTest", new { id = item.Id }) | @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "deleteButton" })
-					</td>
-					<td class="statusTD">
-						<div class='@string.Concat("glyphicon ", item.TestResult ? "glyphicon-ok" : "glyphicon-remove")'></div>
-					</td>
-					<td>
-						@if (item.CurrentUserIsSubscribed)
-						{
-							<input type="button" class="unsubscribeBTN btn btn-link" value="Unsub" data-id="@item.Id" />
-						}
-						else
-						{
-							<input type="button" class="subscribeBTN btn btn-link" value="Sub" data-id="@item.Id" />
-						}
-					</td>
-					<td>
-						@item.Name
-					</td>
-					<td>
-						@item.ComparisonOperator
-					</td>
-					<td>
-						@item.ComparisonThreshold
-					</td>
-					<td>
-						@item.CheckEvery
-					</td>
-					<td>
-						@item.LastCheckedAt
-					</td>
-					<td>
-						@item.NextCheckAt
-						<a href="Klaxon/resetNextCheck/@item.Id" class="btn btn-default btn-xs">Reset</a>
-					</td>
-					<td>
-						@item.NumMatched
-					</td>
-				</tr>
-			}*@
-
 		</table>
 	</div>
 </div>
@@ -205,9 +160,29 @@
 		});
 
 		$('body').on('click', '#UnsubAllBTN', function () {
-			alert('here');
 			var ids = getVisibleIDs();
 			doUnsubscribe(ids);
+		});
+
+		$('body').on('click', '.deleteButton', function () {
+			var $clicked = $(this);
+			var url = '/api/klaxon/' + $clicked.data('klaxonid');
+			$('body').addClass('loading');
+			$.ajax({
+				url: url,
+				type: 'DELETE',
+				data: {
+					Id: $clicked.data('klaxonid')
+				}
+			}).done(function () {
+				alert('Klaxon deleted.');
+				document.location = '/klaxon';
+			}).error(function (error) {
+				alert('Error deleting.');
+				console.log(error);
+			}).always(function () {
+				$('body').removeClass('loading');
+			});
 		});
 
 		loadKlaxons();

@@ -38,5 +38,11 @@ namespace Eventful.Controllers.API
 			km.Update(true);
 			return km;
 		}
+
+		public string Delete(string id)
+		{
+			KlaxonModel.DeleteById(id);
+			return id;
+		}
 	}
 }

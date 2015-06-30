@@ -51,29 +51,29 @@ namespace Eventful.Controllers
 		//
 		// GET: /eventful/Klaxon/Delete/5
 
-		public ActionResult Delete(string id)
-		{
-			KlaxonModel.DeleteById(id);
-			return RedirectToAction("Index");
-		}
+		//public ActionResult Delete(string id)
+		//{
+		//	KlaxonModel.DeleteById(id);
+		//	return RedirectToAction("Index");
+		//}
 
-		//
-		// POST: /eventful/Klaxon/Delete/5
+		////
+		//// POST: /eventful/Klaxon/Delete/5
 
-		[HttpPost]
-		public ActionResult Delete(int id, FormCollection collection)
-		{
-			try
-			{
-				// TODO: Add delete logic here
+		//[HttpPost]
+		//public ActionResult Delete(int id, FormCollection collection)
+		//{
+		//	try
+		//	{
+		//		// TODO: Add delete logic here
 
-				return RedirectToAction("Index");
-			}
-			catch
-			{
-				return View();
-			}
-		}
+		//		return RedirectToAction("Index");
+		//	}
+		//	catch
+		//	{
+		//		return View();
+		//	}
+		//}
 
 		[HttpPost]
 		public ActionResult Test(KlaxonModel km)
