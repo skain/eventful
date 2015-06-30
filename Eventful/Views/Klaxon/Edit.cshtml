@@ -1,5 +1,5 @@
 ﻿@model Eventful.Models.KlaxonModel
-@using eventful.Code;
+@using Eventful.Code;
 @{
 	ViewBag.Title = "Edit";
 }
@@ -14,87 +14,85 @@
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.js")" type="text/javascript"></script>
 
-@using (Html.BeginForm())
-{
+<form method="PUT" id="EditForm" action="/api/klaxon">
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="form-group">
-				@Html.LabelFor(model => model.Name)
-				@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+				<label for="Name">Name</label>
+				<input class="form-control" id="Name" name="Name" type="text" data-bind="attr: { value: Name }" />
 			</div>
 
 			<div class="form-group">
-				@Html.LabelFor(model => model.EqlQuery)
-				@Html.TextAreaFor(model => model.EqlQuery, new { @class = "form-control", rows = 10 })
+				<label for="EqlQuery">EqlQuery</label>
+				<textarea class="form-control" cols="20" id="EqlQuery" name="EqlQuery" rows="10" data-bind="attr: { text: EqlQuery }"></textarea>
 			</div>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="form-group">
-						@Html.LabelFor(model => model.ComparisonOperator)
-						@Html.TextBoxFor(model => model.ComparisonOperator, new { @class = "form-control" })
+						<label for="ComparisonOperator">ComparisonOperator</label>
+						<input class="form-control" id="ComparisonOperator" name="ComparisonOperator" type="text" data-bind="attr: { value: ComparisonOperator }" />
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="form-group">
-						@Html.LabelFor(model => model.ComparisonThreshold)
-						@Html.TextBoxFor(model => model.ComparisonThreshold, new { @class = "form-control" })
+						<label for="ComparisonThreshold">ComparisonThreshold</label>
+						<input class="form-control" data-val="true" data-val-number="The field ComparisonThreshold must be a number." data-val-required="The ComparisonThreshold field is required." id="ComparisonThreshold" name="ComparisonThreshold" type="text" value="10" />
 					</div>
 				</div>
 			</div>
 			<div class="form-group">
-				@Html.LabelFor(model => model.CheckEvery)
-				@Html.TextBoxFor(model => model.CheckEvery, new { @class = "form-control" })
+				<label for="CheckEvery">CheckEvery</label>
+				<input class="form-control" id="CheckEvery" name="CheckEvery" type="text" data-bind="attr: { value: CheckEvery }" />
 			</div>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="form-group">
-						@Html.LabelFor(model => model.AggregateOperation)
-						@Html.TextBoxFor(m => m.AggregateOperation, new { @class = "form-control" })
+						<label for="AggregateOperation">AggregateOperation</label>
+						<input class="form-control" id="AggregateOperation" name="AggregateOperation" type="text" data-bind="attr: { value: AggregateOperation }"/>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="form-group">
-						@Html.LabelFor(m => m.FieldToAggregate)
-						@Html.TextBoxFor(m => m.FieldToAggregate, new { @class = "form-control" })
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="form-group">
-						@Html.LabelFor(m => m.StartTime)
-						@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="form-group">
-						@Html.LabelFor(m => m.EndTime)
-						@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
+						<label for="FieldToAggregate">FieldToAggregate</label>
+						<input class="form-control" id="FieldToAggregate" name="FieldToAggregate" type="text" data-bind="attr: { value: FieldToAggregate }" />
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="form-group">
-						@Html.LabelFor(m => m.LastCheckedAt)
-						@Html.TextBoxFor(m => m.LastCheckedAt, new {  @class = "form-control" })
+						<label for="StartTime">StartTime</label>
+						<input class="form-control" id="StartTime" name="StartTime" type="text" data-bind="attr: { value: StartTime }" />
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="form-group">
-						@Html.LabelFor(m => m.NextCheckAt)
-						@Html.TextBoxFor(m => m.NextCheckAt, new { @class = "form-control" })
+						<label for="EndTime">EndTime</label>
+						<input class="form-control" id="EndTime" name="EndTime" type="text" data-bind="attr: { value: EndTime }" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label for="LastCheckedAt">LastCheckedAt</label>
+						<input class="form-control" data-val="true" data-val-date="The field LastCheckedAt must be a date." data-val-required="The LastCheckedAt field is required." id="LastCheckedAt" name="LastCheckedAt" type="text" data-bind="attr: { value: LastCheckedAt }" />
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label for="NextCheckAt">NextCheckAt</label>
+						<input class="form-control" data-val="true" data-val-date="The field NextCheckAt must be a date." data-val-required="The NextCheckAt field is required." id="NextCheckAt" name="NextCheckAt" type="text" data-bind="attr: { value: NextCheckAt }" />
 					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary">Save</button>
 				<a href="/Klaxon" class="btn btn-default">Cancel</a>
-				@Html.HiddenFor(model => model.NextCheckAt)
-				@Html.HiddenFor(model => model.LastCheckedAt)
-				@Html.HiddenFor(model => model.Id)
-				@Html.HiddenFor(m => m.NumMatched)
+				<input id="Id" name="Id" type="hidden" data-bind="attr: { value: Id }" />
+				<input data-val="true" data-val-number="The field NumMatched must be a number." id="NumMatched" name="NumMatched" type="hidden" value="" />
 			</div>
 
 		</div>
@@ -102,21 +100,19 @@
 			<div class="form-group">
 				<label>Report To Link</label>
 				<p class="form-control-static">
-					<span id="ReportTitle">@(Model.ReportToLink == null ? "NONE" : Model.ReportToLink.Title)</span> 
+					<span id="ReportTitle">NONE</span>
 					<button type="button" id="ChangeReportBTN" class="btn btn-default btn-sm">Change...</button>
-					@Html.HiddenFor(m => m.ReportToLink.Id)
+					<input id="ReportToLink_Id" name="ReportToLink.Id" type="hidden" data-bind="attr: { value: ReportToLink ? ReportToLink.Id : '' }" />
 				</p>
 			</div>
 			<h3>Subscribers</h3>
-			<ul>
-				@foreach (var se in Model.SubscriberEmails)
-	{
-					<li>@se</li>
-	}
+			<ul data-bind="foreach: SubscriberEmails">
+				<li data-bind="text: $data"></li>
 			</ul>
 		</div>
 	</div>
-}
+</form>
+
 @using (Html.BootsrapModal("ChooseReportModal", null, "Choose Report...", true))
 {
 	<p>Choose a report from the list below to include its link in the Klaxon alert message.</p>
@@ -148,6 +144,41 @@
 </div>
 <script>
 	$(document).ready(function () {
+		function getIdFromLocation() {
+			return window.location.pathname.split('/').pop();
+		}
+
+		function bindModel() {
+			$('body').addClass('loading');
+			var id = getIdFromLocation();
+			$.ajax({
+				url: '/api/klaxon/' + id,
+				cache: false,
+				method: 'GET'
+			}).done(function (data) {
+				console.log(data);
+				ko.applyBindings(data, $('#EditForm')[0]);
+			}).error(function (error) {
+				alert(error);
+				console.log(error);
+			}).always(function () {
+				$('body').removeClass('loading');
+			})
+		}
+
+		$('#EditForm').ajaxForm({
+			success: function () {
+				document.location = '/klaxon';
+			},
+			error: function (request, status, error) {
+				$('body').removeClass('loading');
+				eventful.errorAlert.showAlert(request.ResponseText || error || "Error message unavailable");
+			},
+			beforeSubmit: function () { $('body').addClass('loading'); }
+		});
+
+		bindModel();
+
 		$('body').on('click', '#ChangeReportBTN', function () {
 			$('#ChooseReportModal').modal();
 			var $reportListDiv = $('#ReportListDiv');

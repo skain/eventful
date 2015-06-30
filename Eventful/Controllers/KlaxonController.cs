@@ -10,7 +10,7 @@ using EventfulLogger.LoggingUtils;
 
 namespace Eventful.Controllers
 {
-	[Authorize]
+	//[Authorize]
 	public class KlaxonController : Controller
 	{
 		private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -36,25 +36,7 @@ namespace Eventful.Controllers
 
 		public ActionResult Create()
 		{
-			return View(KlaxonModel.CreateNewModel());
-		}
-
-		//
-		// POST: /eventful/Klaxon/Create
-
-		[HttpPost]
-		public ActionResult Create(KlaxonModel k)
-		{
-			try
-			{
-				k.Create();
-				return RedirectToAction("Index");
-			}
-			catch (Exception e)
-			{
-				logger.EventfulError(e, "Error creating Klaxon.");
-				return View();
-			}
+			return View();
 		}
 
 		//
@@ -62,27 +44,9 @@ namespace Eventful.Controllers
 
 		public ActionResult Edit(string id)
 		{
-			KlaxonModel km = KlaxonModel.GetById(id);
-			return View(km);
+			return View();
 		}
 
-		//
-		// POST: /eventful/Klaxon/Edit/5
-
-		[HttpPost]
-		public ActionResult Edit(KlaxonModel km)
-		{
-			try
-			{
-				km.Update(true);
-
-				return RedirectToAction("Index");
-			}
-			catch
-			{
-				return View(km);
-			}
-		}
 
 		//
 		// GET: /eventful/Klaxon/Delete/5

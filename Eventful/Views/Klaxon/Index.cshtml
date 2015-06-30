@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Eventful.Models.KlaxonModel>
-@using eventful.Code
+@using Eventful.Code
 @{
 	ViewBag.Title = "Klaxon";
 }
@@ -65,8 +65,37 @@
 					Num Matched Last Run
 				</th>
 			</tr>
+			<!-- ko foreach: $data -->
+				<tr>
+					<td>
+						<a data-bind="attr: { href: '/Klaxon/RunTest/' + Id}">Run</a> | <a data-bind="attr: { href: '/Klaxon/Edit/' + Id }">Edit</a> | <a data-bind="attr: { href: '/Klaxon/Delete/' + Id }" class="deleteButton">Delete</a>
+					</td>
+					<td class="statusTD">
+						<div data-bind="css: { 'glyphicon-ok': TestResult, 'glyphicon-remove': !TestResult }" class="glyphicon"></div>
+					</td>
+					<td>
+						<input type="button" class="btn btn-link" data-bind="attr: { value: CurrentUserIsSubscribed ? 'Unsub' : 'Sub', 'data-id': Id }, css: { unsubscribeBTN: CurrentUserIsSubscribed, subscribeBTN: !(CurrentUserIsSubscribed) }" />
+					</td>
+					<td data-bind="text: Name">
+					</td>
+					<td data-bind="text: ComparisonOperator">
+					</td>
+					<td data-bind="text: ComparisonThreshold">
+					</td>
+					<td data-bind="text: CheckEvery">
+					</td>
+					<td data-bind="text: LastCheckedAt">
+					</td>
+					<td>
+						<span data-bind="text: NextCheckAt"></span>
+						<a data-bind="attr: {href: 'Klaxon/resetNextCheck/' + Id }" class="btn btn-default btn-xs">Reset</a>
+					</td>
+					<td data-bind="text: NumMatched">
+					</td>
+				</tr>
+			<!-- /ko -->
 
-			@foreach (var item in Model.OrderBy(m => m.Name))
+			@*@foreach (var item in Model.OrderBy(m => m.Name))
 			{
 				<tr>
 					<td>
@@ -108,7 +137,7 @@
 						@item.NumMatched
 					</td>
 				</tr>
-			}
+			}*@
 
 		</table>
 	</div>
@@ -122,6 +151,18 @@
 <script>
 	$(document).ready(function () {
 
+		function loadKlaxons() {
+			$('body').addClass('loading');
+			$.ajax({
+				url: '/api/klaxon/getall',
+				cache: false
+			}).done(function (data) {
+				console.log(data);
+				ko.applyBindings(data, $('.KlaxonsTable')[0]);
+			}).always(function () {
+				$('body').removeClass('loading');
+			});
+		}
 		function doSubscribe(ids) {
 			$.get('/Klaxon/SubscribeDialog?idsStr=' + ids, function (data) {
 				if (data.Subscribed === true) {
@@ -169,6 +210,7 @@
 			doUnsubscribe(ids);
 		});
 
+		loadKlaxons();
 		eventful.simpleTableFilter.registerFilterTable('#FilterTB', '.KlaxonsTable', 4);
 	});
 </script>
