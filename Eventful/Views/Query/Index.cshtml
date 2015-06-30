@@ -278,13 +278,13 @@
 		}
 
 		function linkCodeRefsToGitHub() {
-			var $pres = $('div.detailRow tr:contains("ExceptionStackTrace") pre');
-			$pres.each(function () {
-				var $pre = $(this);
-				var value = $pre.text().replace(/</g, '&lt;');
-				var linked = value.replace(/(.*in .*?\\((Backend|WyzAntCommon|WyzAntWeb|WyzAntBackend)\\.*):line (\d*))/g, "<a href='https://repos.wyzdev.com/wyzant-web/main/blob/master/$2#L$4' target='_blank'>$1</a>").replace(/\\/g, '/');
-				$pre.html(linked);
-			});
+			//var $pres = $('div.detailRow tr:contains("ExceptionStackTrace") pre');
+			//$pres.each(function () {
+			//	var $pre = $(this);
+			//	var value = $pre.text().replace(/</g, '&lt;');
+			//	var linked = value.replace(/(.*in .*?\\((Backend|WyzAntCommon|WyzAntWeb|WyzAntBackend)\\.*):line (\d*))/g, "<a href='https://repos.wyzdev.com/wyzant-web/main/blob/master/$2#L$4' target='_blank'>$1</a>").replace(/\\/g, '/');
+			//	$pre.html(linked);
+			//});
 		}
 
 		function renderResults(response, statusText, xhr, $form) {

@@ -233,7 +233,7 @@ namespace Eventful.Shared.Strings
 			catch (Exception e)
 			{
 				logger.Error("Error parsing HTML.\r\n{0}", e);
-				return "This document's contents have been flagged by Eventful's security systems as possibly containing malicious code. The contents have therefore been removed. If you feel you are receving this message in error please contact WyzAnt Customer Support by phone or email.";
+				return "This document's contents have been flagged by Eventful's security systems as possibly containing malicious code. The contents have therefore been removed.";
 			}
 		}
 	}
